@@ -87,11 +87,11 @@ RUN DEBIAN_FRONTEND=noninteractive      \
 RUN DEBIAN_FRONTEND=noninteractive      \
     apt clean                        -y
 
-COPY ./installations/fms_19.6.4.402_Ubuntu20 /install
+# TODO change to a mount
+# COPY ./installations/fms_19.6.4.402_Ubuntu20 /install
 
 # document the ports that should be
-# published when filemaker server
-# is installed
+# published when filemaker server is installed
 EXPOSE 80
 EXPOSE 443
 EXPOSE 2399

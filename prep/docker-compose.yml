@@ -1,13 +1,13 @@
 version: '3.8'
 services:
-  fms-prep:
+  prep:
     build:
       context: .
       dockerfile: dockerfile
       args:
         - BUILD_VERSION=prep
-    container_name: fms-docker
-    hostname: fms-docker
+    container_name: fms-prep
+    hostname: fms-prep
     privileged: true
     ports:
       - "80:80"
@@ -15,5 +15,5 @@ services:
       - "2399:2399"
       - "5003:5003"
     volumes:
-      # - ./installations/fms_19.6.4.402_Ubuntu20:/install
-      - ../db:/opt/FileMaker/FileMaker Server/Data
+      - ./installations/fms_19.6.4.402_Ubuntu20:/install
+      - ../data:/opt/FileMaker/FileMaker Server/Data
