@@ -1,9 +1,9 @@
 version: '3.8'
 services:
-  fms-docker:
+  fms:
     image: jackdeaniels/private:yeda-fms-19.6.4
-    container_name: fms-docker
-    hostname: fms-docker
+    container_name: fms-19
+    hostname: fms-19
     privileged: true
     ports:
       - "80:80"
