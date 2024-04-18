@@ -4,8 +4,7 @@ FROM amd64/ubuntu:22.04
 RUN DEBIAN_FRONTEND=noninteractive      \
     apt update
 
-# upgrade all installed software
-# packages
+# upgrade all installed software packages
 RUN DEBIAN_FRONTEND=noninteractive      \
     apt full-upgrade                 -y
 
@@ -87,19 +86,16 @@ RUN DEBIAN_FRONTEND=noninteractive      \
 RUN DEBIAN_FRONTEND=noninteractive      \
     apt clean                        -y
 
-# TODO change to a mount
-# COPY ./installations/fms_19.6.4.402_Ubuntu20 /install
-
-# document the ports that should be
-# published when filemaker server is installed
+# Ports
 EXPOSE 80
 EXPOSE 443
 EXPOSE 2399
 EXPOSE 5003
 
-# when containers run, start this
-# command as root to initialize
-# user management
+# Mounts
+VOLUME [ "/install", "/opt/FileMaker/FileMaker Server/Data" ]
+
+# when containers run, start this command as root to initialize user management
 USER root
 CMD ["/sbin/init"]
 

@@ -101,7 +101,7 @@ docker build -t fms:$tag \
 container=fms-$ver-prep
 docker rm $container --force
 docker run -d --name $container --hostname $container --privileged $ports \
-    -v "$prep/versions/$ver_dir/install:/install" \
+    -v "$prep/versions/$ver_dir:/install" \
     -v "$dir/data:/opt/FileMaker/FileMaker Server/Data" \
     fms:$tag
 echo Prep container running under the name $container
