@@ -92,12 +92,16 @@ for containerPort in "${!port_mapping[@]}"; do
 done
 
 # Build the prep image
-docker build -t fms:prep-$ver-$PROCESSOR \
+tag=prep-$ver-$PROCESSOR
+docker build -t fms:$tag \
     -f $prep/versions/$ver_dir/dockerfile \
     $prep
 
 # Run the fms prep container
-docker run -d --name fms-$ver-prep --hostname fms-$ver-prep --privileged $ports \
+container=fms-$ver-prep
+docker rm $container --force
+docker run -d --name $container --hostname $container --privileged $ports \
     -v "$prep/versions/$ver_dir/install:/install" \
     -v "$dir/data:/opt/FileMaker/FileMaker Server/Data" \
-    fms:prep-$ver-$PROCESSOR
+    fms:$tag
+echo Prep container running under the name $container
