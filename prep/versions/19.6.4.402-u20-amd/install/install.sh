@@ -1,0 +1,1 @@
+apt install /install/filemaker-server-19.6.4.402-amd64.deb

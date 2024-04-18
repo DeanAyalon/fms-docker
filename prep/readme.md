@@ -6,4 +6,4 @@ Working versions tested:
 
 ## Downloads
 https://accounts.claris.com/software/license/FMS_LICENSE_CODE <br>
-Or use [the download script](./download.sh) - Based on [.env](../../../.env)
+Or use [the download script](.versions/download.sh) - Based on [.env](../.env)
