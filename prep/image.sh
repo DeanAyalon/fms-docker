@@ -1,8 +1,10 @@
-# Get absolute path
-dir=$(dirname $(dirname $(readlink -f $0)))
+#!/bin/bash
+
+# Execution context
+cd "$(dirname "$0")"/..
 
 # env -> REPO, IMAGE, VERSION, UBUNTU, PROCESSOR
-source $dir/.env
+source .env
 
 # Major version
 ver=${VERSION%%.*}
@@ -34,4 +36,3 @@ if [ ! -z $REPO ]; then
         docker push $image
     fi
 fi
-    

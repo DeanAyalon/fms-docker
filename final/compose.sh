@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Absolute path (filemaker-server)
-final=$(dirname $(readlink -f $0))
+    # Using absolute path instead of cd for the integrity of relative-path user input
+final=$(cd "$(dirname "$0")" && pwd)
 dir=$(dirname $final)
 
 # .env: VERSION, UBUNTU, PROCESSOR
@@ -24,7 +25,7 @@ else
 fi
 
 # Default values
-mounted_volume="$dir/data"
+mounted_volume=$dir/data
 declare -a port_mapping=(
     ["80"]="80"
     ["443"]="443"

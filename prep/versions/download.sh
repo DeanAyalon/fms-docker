@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# Absolute paath
-versions=$(dirname $(readlink -f $0))
-dir=$(readlink -f $versions/../..)
-echo $dir
+# Execution context - filemaker-server dir
+cd "$(dirname "$0")/../.."
 
 # env -> LICENSE
-$dir/env.sh
-source $dir/.env
+./env.sh
+source .env
 
 # License must be defined
 if [ -z $LICENSE ]; then

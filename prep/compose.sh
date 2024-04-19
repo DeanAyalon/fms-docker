@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # Absolute path (filemaker-server)
-prep=$(dirname $(readlink -f $0))
+    # Using absolute path so user-defined relative paths given to mounts stay correct
+prep=$(cd "$(dirname "$0")" && pwd)
 dir=$(dirname $prep)
 
 # .env: VERSION, UBUNTU, PROCESSOR
-$dir/env.sh
+"$dir/env.sh"
 source "$dir/.env"
 
 # Major version
@@ -29,7 +30,7 @@ function help() {
     echo Usage: $0 [-d][-h][-m path][-p]
     echo
     echo Image and installation version are defined within the .env file:
-    echo "  $dir/env"
+    echo "  $dir/.env"
     echo
     echo Flags:
     echo "  -d  Stop and remove the container ($container)"
@@ -46,7 +47,7 @@ while getopts "dhm:p" opt; do
             echo Taking $container down
             docker stop $container
             docker rm $container 
-            exit 2 ;;
+            exit 0 ;;
 
         # Help
         h ) help ; exit 2 ;;
@@ -79,6 +80,7 @@ fi
 
 # Version directory
 ver_dir=$VERSION-u$UBUNTU-$PROCESSOR
+
 if [ ! -d "$prep/versions/$ver_dir" ]; then
     echo Installation directory $ver_dir not found within prep/versions
     echo Create the directory and add the proper installation files within
@@ -94,8 +96,8 @@ done
 
 # Build the prep image
 docker build -t fms:$tag \
-    -f $prep/versions/$ver_dir/dockerfile \
-    $prep
+    -f "$prep/versions/$ver_dir/dockerfile" \
+    "$prep"
 
 # Run the fms prep container
 docker rm $container --force
