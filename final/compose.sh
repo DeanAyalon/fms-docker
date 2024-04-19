@@ -1,20 +1,27 @@
 #!/bin/bash
 
 # Absolute path (filemaker-server)
-prep=$(dirname $(readlink -f $0))
-dir=$(dirname $prep)
+final=$(dirname $(readlink -f $0))
+dir=$(dirname $final)
 
 # .env: VERSION, UBUNTU, PROCESSOR
-$dir/env.sh
+"$dir/env.sh"
 source "$dir/.env"
 
 # Major version
 ver=${VERSION%%.*}
 
 # Docker
-container=fms-$ver-prep
-image=fms
-tag=prep-$ver-$PROCESSOR
+container=fms-$ver
+
+tag=$VERSION-u$UBUNTU-$PROCESSOR
+if [ -z $REPO ]; then 
+    image=$IMAGE
+else
+    # REPO:IMAGE-VERSION-uUBUNTU-PROCESSOR
+    image=$REPO
+    tag=$IMAGE-$tag
+fi
 
 # Default values
 mounted_volume="$dir/data"
@@ -23,13 +30,14 @@ declare -a port_mapping=(
     ["443"]="443"
     ["2399"]="2399"
     ["5003"]="5003"
+    ["16001"]="16001"
 )
 
 function help() {
     echo Usage: $0 [-d][-h][-m path][-p]
     echo
     echo Image and installation version are defined within the .env file:
-    echo "  $dir/env"
+    echo "  $dir/.env"
     echo
     echo Flags:
     echo "  -d  Stop and remove the container ($container)"
@@ -61,6 +69,7 @@ while getopts "dhm:p" opt; do
             echo Manual port mapping
             for containerPort in "${!port_mapping[@]}"; do
                 echo "Container port $containerPort - Host Port: ($containerPort)"
+                echo Use 0 to prevent the port from mapping to host
                 read hostPort
                 [ -z $hostPort ] && hostPort=$containerPort
                 port_mapping[$containerPort]=$hostPort
@@ -71,36 +80,15 @@ while getopts "dhm:p" opt; do
 done
 shift $((OPTIND -1))
 
-# # Check if processor is arm and version is 19.6.4.402
-if [ "$PROCESSOR" = "arm" ] && [ "$VERSION" = "19.6.4.402" ]; then
-    echo Error: FMS $VERSION does not have an arm64 version
-    exit 1
-fi
-
-# Version directory
-ver_dir=$VERSION-u$UBUNTU-$PROCESSOR
-if [ ! -d "$prep/versions/$ver_dir" ]; then
-    echo Installation directory $ver_dir not found within prep/versions
-    echo Create the directory and add the proper installation files within
-    echo "  $prep/versions/$ver_dir"
-    exit 1
-fi
-
 # Port mapping flags
 ports=""
 for containerPort in "${!port_mapping[@]}"; do
-    ports+="-p ${port_mapping[$containerPort]}:$containerPort "
+    hostPort=${port_mapping[$containerPort]}
+    [ ! "$hostPort" -eq 0 ] && ports+="-p $hostPort:$containerPort "
 done
 
-# Build the prep image
-docker build -t fms:$tag \
-    -f $prep/versions/$ver_dir/dockerfile \
-    $prep
-
 # Run the fms prep container
-docker rm $container --force
 docker run -d --name $container --hostname $container --privileged $ports \
-    -v "$prep/versions/$ver_dir:/install" \
     -v "$mounted_volume:/opt/FileMaker/FileMaker Server/Data" \
-    fms:$tag
-echo Prep container running under the name $container
+    $image:$tag
+echo FileMaker Server running in $container container
