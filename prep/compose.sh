@@ -103,6 +103,7 @@ for containerPort in "${!port_mapping[@]}"; do
       - \"${port_mapping[$containerPort]}:$containerPort\""
 done
 
+# Generate docker-compose.yml
 echo "name: $project
 services:
   prep-$ver:
@@ -119,18 +120,10 @@ services:
       - $mounted_volume:/opt/FileMaker/FileMaker Server/Data
 " > $prep/docker-compose.yml
 
-# Build the prep image
-# echo docker build -t fms:$tag \
-#     -f "$prep/versions/$ver_dir/dockerfile" \
-#     "$prep"
-# docker build -t fms:$tag \
-#     -f "$prep/versions/$ver_dir/dockerfile" \
-#     "$prep"
-
 # Remove running container
 docker rm --force $container
 
-# Create docker-compose.yml
+# Run docker compose
 cd $prep
 docker compose up -d
 
@@ -138,17 +131,3 @@ docker compose up -d
 echo Entering container, please run the following commands: 
 echo "cd install; ./install.sh"
 docker exec -it -u 0 $container /bin/sh
-
-
-# Run the fms prep container
-# docker rm $container --force
-# echo docker run -d --name $container --hostname $container --privileged $ports \
-#     -v "$prep/versions/$ver_dir:/install" \
-#     -v "$mounted_volume:/opt/FileMaker/FileMaker Server/Data" \
-#     fms:$tag
-# docker run -d --name $container --hostname $container --privileged $ports \
-#     -v "$prep/versions/$ver_dir:/install" \
-#     -v "$mounted_volume:/opt/FileMaker/FileMaker Server/Data" \
-#     fms:$tag
-# echo Prep container running under the name $container
-
