@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Absolute path (filemaker-server)
+# Absolute path - fms-docker repo
     # Using absolute path instead of cd for the integrity of relative-path user input
 final=$(cd "$(dirname "$0")" && pwd)
-dir=$(dirname $final)
+repo=$(dirname $final)
 
 # .env: VERSION, UBUNTU, PROCESSOR
-"$dir/env.sh"
-source "$dir/.env"
+"$repo/env.sh"
+source "$repo/.env"
 
 # Major version
 ver=${VERSION%%.*}
@@ -25,7 +25,7 @@ else
 fi
 
 # Default values
-mounted_volume=$dir/data
+mounted_volume=$repo/data
 declare -a port_mapping=(
     ["80"]="80"
     ["443"]="443"
@@ -38,7 +38,7 @@ function help() {
     echo Usage: $0 [-d][-h][-m path][-p]
     echo
     echo Image and installation version are defined within the .env file:
-    echo "  $dir/.env"
+    echo "  $repo/.env"
     echo
     echo Flags:
     echo "  -d  Stop and remove the container ($container)"

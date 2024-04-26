@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Absolute path (filemaker-server)
+# Absolute path
     # Using absolute path so user-defined relative paths given to mounts stay correct
 prep=$(cd "$(dirname "$0")" && pwd)
-dir=$(dirname $prep)
+repo=$(dirname $prep)
 
 # .env: VERSION, UBUNTU, PROCESSOR
-"$dir/env.sh"           # Make sure .env exists, or generate it
-source "$dir/.env"
+"$repo/env.sh"           # Make sure .env exists, or generate it
+source "$repo/.env"
 
 # Major FMS version
 ver=${VERSION%%.*}
@@ -19,7 +19,7 @@ image=fms
 tag=prep-$ver-$PROCESSOR
 
 # Default values
-mounted_volume="$dir/data"
+mounted_volume="$repo/data"
 declare -a port_mapping=(
     ["80"]="80"
     ["443"]="443"
@@ -31,7 +31,7 @@ function help() {
     echo Usage: $0 [-d][-h][-m path][-p]
     echo
     echo Image and installation version are defined within the .env file:
-    echo "  $dir/.env"
+    echo "  $repo/.env"
     echo
     echo Flags:
     echo "  -d  Stop and remove the container ($container)"

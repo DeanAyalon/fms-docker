@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Execution context
+# Execution context - fms-docker repo
 cd "$(dirname "$0")"/..
 
 # env -> REPO, IMAGE, VERSION, UBUNTU, PROCESSOR
