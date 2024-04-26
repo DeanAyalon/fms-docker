@@ -1,7 +1,7 @@
 #!/bin/bash
 # Check if .env file exists, and create it if not
 
-# Execution context - filemaker-server dir
+# Execution context - fms-docker repo
 cd "$(dirname "$0")"
 
 # Exit if .env exists
