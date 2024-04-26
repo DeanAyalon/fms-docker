@@ -8,6 +8,7 @@ prep/versions/*/*
 
 # Environment
 .env
+old.env
 
 # Dynamic docker-compose
 prep/docker-compose.yml
