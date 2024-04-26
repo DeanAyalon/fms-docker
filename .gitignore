@@ -1,0 +1,13 @@
+# Server Data
+filemaker-server/data
+
+# FMS installation
+filemaker-server/prep/versions/*/*
+!filemaker-server/prep/versions/*/dockerfile
+!filemaker-server/prep/versions/*/install.sh
+
+# Environment
+.env
+
+# Dynamic docker-compose
+filemaker-server/prep/docker-compose.yml
