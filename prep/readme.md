@@ -11,19 +11,27 @@ Or use [the download script](.versions/download.sh) - Based on [.env](../.env)
 ## Steps
 Prep
 - compose.sh
-- `enter fms-ver-prep`, `cd /install`, install.sh 
-    > TODO: Put this into the compose script, call it install?
-- image.sg
+- (Within the prep container) install.sh
+- image.sh
 
 final
 - compose.sh
 
-# Certificates
+## Certificates
 > TODO: Check about automatic installation
 
-- Login to the [admin console](https://localhost/admin-console) and import the certificate files
+- Login to the [Admin Console](https://localhost/admin-console) and import the certificate files
 - Restart FileMaker Server
-```
+
+## Restart FileMaker Server
+Not to be confused with the "Restart Database Server" within the Admin Console
+```sh
 sudo systemctl stop filemaker 
 sudo systemctl start filemaker 
+```
+
+# Errors
+### Failed to fetch URL    Temporary failute resolving 'DOMAIN'
+```sh
+echo -e "nameserver 8.8.8.8\nnameserver 8.8.4.4" |tee -a /etc/resolv.conf
 ```

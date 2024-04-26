@@ -6,13 +6,14 @@ prep=$(cd "$(dirname "$0")" && pwd)
 dir=$(dirname $prep)
 
 # .env: VERSION, UBUNTU, PROCESSOR
-"$dir/env.sh"
+"$dir/env.sh"           # Make sure .env exists, or generate it
 source "$dir/.env"
 
-# Major version
+# Major FMS version
 ver=${VERSION%%.*}
 
 # Docker
+project=filemaker
 container=fms-$ver-prep
 image=fms
 tag=prep-$ver-$PROCESSOR
@@ -37,10 +38,11 @@ function help() {
     echo "  -h  Show this Help dialog"
     echo "  -m  Define mount data path                      Default: $mounted_volume"
     echo "  -p  Interactive port forwarding override        Ports: 80, 443, 2399, 5003"
+    echo "  -P  Define Docker project name                  Default: $project"
 }
 
 # Process command-line arguments
-while getopts "dhm:p" opt; do
+while getopts "dhmpP:" opt; do
     case ${opt} in
         # Down
         d )
@@ -55,7 +57,9 @@ while getopts "dhm:p" opt; do
         # Mounted data volume
         m )
             echo "Enter the path to mount the data volume:"
-            read mounted_volume ;;
+            read mounted_volume
+            mounted_volume=$(cd $mounted_volume && pwd)
+            echo $mounted_volume ;;
         
         # Ports
         p ) 
@@ -66,6 +70,8 @@ while getopts "dhm:p" opt; do
                 [ -z $hostPort ] && hostPort=$containerPort
                 port_mapping[$containerPort]=$hostPort
             done ;;
+
+        P ) project=$OPTARG ;;
 
         \? ) help ; exit 1 ;;
     esac
@@ -90,19 +96,59 @@ fi
 
 # Port mapping flags
 ports=""
+compose_ports=""
 for containerPort in "${!port_mapping[@]}"; do
     ports+="-p ${port_mapping[$containerPort]}:$containerPort "
+    compose_ports+="
+      - \"${port_mapping[$containerPort]}:$containerPort\""
 done
 
+echo "name: $project
+services:
+  prep-$ver:
+    build:
+      context: $prep
+      dockerfile: versions/$ver_dir/dockerfile
+    image: fms:$tag
+    container_name: $container
+    hostname: $container
+    privileged: true
+    ports:$compose_ports
+    volumes:
+      - $prep/versions/$ver_dir:/install
+      - $mounted_volume:/opt/FileMaker/FileMaker Server/Data
+" > $prep/docker-compose.yml
+
 # Build the prep image
-docker build -t fms:$tag \
-    -f "$prep/versions/$ver_dir/dockerfile" \
-    "$prep"
+# echo docker build -t fms:$tag \
+#     -f "$prep/versions/$ver_dir/dockerfile" \
+#     "$prep"
+# docker build -t fms:$tag \
+#     -f "$prep/versions/$ver_dir/dockerfile" \
+#     "$prep"
+
+# Remove running container
+docker rm --force $container
+
+# Create docker-compose.yml
+cd $prep
+docker compose up -d
+
+# Enter prep container
+echo Entering container, please run the following commands: 
+echo "cd install; ./install.sh"
+docker exec -it -u 0 $container /bin/sh
+
 
 # Run the fms prep container
-docker rm $container --force
-docker run -d --name $container --hostname $container --privileged $ports \
-    -v "$prep/versions/$ver_dir:/install" \
-    -v "$mounted_volume:/opt/FileMaker/FileMaker Server/Data" \
-    fms:$tag
-echo Prep container running under the name $container
+# docker rm $container --force
+# echo docker run -d --name $container --hostname $container --privileged $ports \
+#     -v "$prep/versions/$ver_dir:/install" \
+#     -v "$mounted_volume:/opt/FileMaker/FileMaker Server/Data" \
+#     fms:$tag
+# docker run -d --name $container --hostname $container --privileged $ports \
+#     -v "$prep/versions/$ver_dir:/install" \
+#     -v "$mounted_volume:/opt/FileMaker/FileMaker Server/Data" \
+#     fms:$tag
+# echo Prep container running under the name $container
+
