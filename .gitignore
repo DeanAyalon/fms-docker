@@ -2,9 +2,7 @@
 data
 
 # FMS installation
-prep/versions/*/*
-!prep/versions/*/dockerfile
-!prep/versions/*/install.sh
+prep/versions/*/*.deb
 
 # Environment
 .env
