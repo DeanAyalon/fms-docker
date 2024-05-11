@@ -1,0 +1,3 @@
+[submodule "claris-script"]
+	path = claris-fms-docker
+	url = https://github.com/DeanAyalon/claris-fms-docker.git

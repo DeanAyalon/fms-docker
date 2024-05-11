@@ -4,6 +4,10 @@ This repository is made to create Docker containers running FileMaker Server, af
 ## Current State
 Not yet working on arm processors (Or Yeda-Server, at least)
 
+## Submodule Access
+This repository has a git submodule set to the claris-script directory. The submodule is a private repository and the script may only be accessed internally by me.<br>
+To get the Docker FMS installation script as it is provided by Claris, install FileMaker Server on a machine, and you'll find the script in the following path: `/opt/FileMaker/FileMaker Server/Tools/Docker`.
+
 # Use
 ## Downloads
 https://accounts.claris.com/software/license/FMS_LICENSE_CODE <br>
