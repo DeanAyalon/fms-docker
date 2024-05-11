@@ -1,4 +1,7 @@
-# Current State
+# What is this?
+This repository is made to create Docker containers running FileMaker Server, after failing with the scripts supplied by Claris.
+
+## Current State
 Not yet working on arm processors (Or Yeda-Server, at least)
 
 # Use
