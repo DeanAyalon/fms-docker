@@ -1,11 +1,11 @@
 #!/bin/bash
 # Checks if .env file exists and is up to date; Generates it otherwise
 
-# Current version, based on defaults.env
-version=$(grep -oP '^ENV_VER=\K.*' defaults.env)
-
 # Execution context - fms-docker repo
 cd "$(dirname "$0")"
+
+# Current version, based on defaults.env
+version=$(awk -F '=' '/^ENV_VER/ {print $2}' defaults.env)
 
 # Exit if .env exists
 if [ -f .env ]; then
