@@ -17,7 +17,7 @@ if [ -f .env ]; then
         old=true
     else 
         # .env up to date
-        exit 2
+        exit 0
     fi
 fi
 
