@@ -3,10 +3,10 @@
 # Absolute path - fms-docker repo
     # Using absolute path instead of cd for the integrity of relative-path user input
 final=$(cd "$(dirname "$0")" && pwd)
-repo=$(dirname $final)
+repo=$(dirname "$final")
 
 # .env: VERSION, UBUNTU, PROCESSOR
-"$repo/env.sh"
+"$repo/env.sh" || exit 1
 source "$repo/.env"
 
 # Major version
@@ -48,7 +48,7 @@ function help() {
 }
 
 # Process command-line arguments
-while getopts "dhm:p" opt; do
+while getopts "dhmp" opt; do
     case ${opt} in
         # Down
         d )

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Checks if .env file exists and is up to date; Generates it otherwise
 
-# Execution context - fms-docker repo
+# Execution context - this repo
 cd "$(dirname "$0")"
 
 # Current version, based on defaults.env
@@ -22,9 +22,10 @@ if [ -f .env ]; then
 fi
 
 # Generate .env and wait for user input
-echo generating .env file...
+echo Generating default .env file
 # Generate default .env
 cp defaults.env .env
 code .env
 [ $old ] && code old.env
-read -p "Edit the .env file, then press enter to continue, or ^C to cancel"
+echo Edit the .env file, then try again...
+exit 1

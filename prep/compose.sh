@@ -3,10 +3,10 @@
 # Absolute path
     # Using absolute path so user-defined relative paths given to mounts stay correct
 prep=$(cd "$(dirname "$0")" && pwd)
-repo=$(dirname $prep)
+repo=$(dirname "$prep")
 
 # .env: VERSION, UBUNTU, PROCESSOR
-"$repo/env.sh"           # Make sure .env exists, or generate it
+"$repo/env.sh" || exit 1           # Make sure .env exists, or generate it
 source "$repo/.env"
 
 # Major FMS version
@@ -58,7 +58,7 @@ while getopts "dhmpP:" opt; do
         m )
             echo "Enter the path to mount the data volume:"
             read mounted_volume
-            mounted_volume=$(cd $mounted_volume && pwd)
+            mounted_volume=$(cd "$mounted_volume" && pwd)
             echo $mounted_volume ;;
         
         # Ports

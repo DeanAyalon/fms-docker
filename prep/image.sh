@@ -4,6 +4,7 @@
 cd "$(dirname "$0")"/..
 
 # env -> REPO, IMAGE, VERSION, UBUNTU, PROCESSOR
+.env.sh || exit 1
 source .env
 
 # Major version
