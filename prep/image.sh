@@ -4,7 +4,7 @@
 cd "$(dirname "$0")"/..
 
 # env -> REPO, IMAGE, VERSION, UBUNTU, PROCESSOR
-.env.sh || exit 1
+[ ! -f .env ] && exit 1
 source .env
 
 # Major version
@@ -22,7 +22,7 @@ else
     image=$IMAGE:$tag
 fi
 
-# Commit running container into 
+# Commit running container into image
 echo Committing $container into $image
 docker commit $container $image
 echo Stopping $container 

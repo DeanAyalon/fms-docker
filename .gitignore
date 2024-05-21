@@ -5,8 +5,8 @@ data
 prep/versions/*/*.deb
 
 # Environment
-.env
-old.env
+*.env
+!template.env
 
 # Dynamic docker-compose
 prep/docker-compose.yml
