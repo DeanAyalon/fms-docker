@@ -1,3 +1,4 @@
+name: filemaker
 services:
   prep: 
     build:
