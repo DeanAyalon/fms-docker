@@ -18,15 +18,13 @@ Place the FileMaker Server installation .deb file within the appropriate [versio
 If the version folder does not exist, it can be duplicated from one of the other version folders - But dockerfile may need to be modified to update dependencies.
 
 ## Installation (prep)
-- Compose (`docker compose up -d fms-prep`)
-- (Within the prep container) `/install/install.sh`
-  > This may in the future be integrated as an entrypoint in dockerfile
-  > > That might prevent the final image from working<br>
-  > > Using a different entrypoint in compose would probably work, but it's not ideal for the image not to work as is
-- image.sh (docker commit)
+- Compose: `docker compose up -d fms-prep`
+- [install script](./prep/install.sh) - Executes the filemaker server installation within the container
+- (Optional) Add SSL certificate - Can also be done after running the finalized image
+- [image script](./prep/image.sh) (docker commit)
 
 ## Certificates
-> TODO: Check about automatic installation
+> TODO: Check about automatic installation with .env LICENSE
 
 - Login to the [Admin Console](https://localhost/admin-console) and import the certificate files
 - Restart FileMaker Server
