@@ -16,3 +16,4 @@ services:
 
 volumes:
   fms:
+    name: ${VOLUME:-fms}

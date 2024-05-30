@@ -93,7 +93,7 @@ EXPOSE 2399
 EXPOSE 5003
 
 # Mounts
-VOLUME [ "/install", "/opt/FileMaker/FileMaker Server/Data" ]
+VOLUME [ "/opt/FileMaker/FileMaker Server" ]
 
 # when containers run, start this command as root to initialize user management
 USER root

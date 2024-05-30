@@ -42,7 +42,7 @@ systemctl start fmshelper
 TODO check
 
 # Errors
-## During Installation
+## Installation
 ### Failed to fetch URL    Temporary failute resolving 'DOMAIN'
 ```sh
 echo -e "nameserver 8.8.8.8\nnameserver 8.8.4.4" |tee -a /etc/resolv.conf
@@ -63,6 +63,25 @@ E: Sub-process /usr/bin/dpkg returned an error code (1)
 That indicates a permission error, and seems to occur when bind-mounting the data folder on arm64 machines (or at least on Yeda-Server).<br>
 Removing the `MOUNT` variable from .env seems to solve the problem.
 > Check if there's any permission level that would allow using a bind mount
+
+> Currently strictly using named volumes, as bind mounts produce other permission errors
+
+## Devin Connection
+### Cannot connect to Engine (Unknown). Make sure FileMaker Server is running and that the URL is correct.
+Make sure the container and fmshelper service within it are up, and container port 5003 is accessible.
+
+### Go to Hosts -> Show Hosts, add the server, tick 'always permit connection...' and try again.
+The database server is not encrypted, upload an SSL certificate using the admin console (https://DOMAIN/admin-console).<br>
+Then, re-compose the container with 
+```sh
+docker compose down fms
+docker compose up -d fms
+```
+
+## Development
+### File Not Modifiable
+Make sure the container has permissions to access the database file.<br>
+Set the file ownership using `chown fmsrver:fmsadmin filemakerapp.fmp12`
 
 # Featured Technologies 
 ![FileMaker](https://img.shields.io/badge/claris-filemaker-black.svg?style=for-the-badge&logo=claris&logoColor=white)
