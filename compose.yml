@@ -1,0 +1,33 @@
+name: filemaker
+services:
+  prep: 
+    profiles:
+      - prep
+    build:
+      context: ./prep/versions/${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
+      dockerfile: dockerfile
+    container_name: fms-prep
+    hostname: fms-prep
+    privileged: true
+    volumes:
+      - ./prep/versions/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install
+      - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data/
+
+  fms:
+    profiles:
+      - live
+    image: ${IMAGE:?}:${TAG_PREFIX}${TAG_PREFIX:+-}${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
+    container_name: fms
+    hostname: fms
+    privileged: true
+    ports:
+      # - 80:80
+      # - 443:443
+      # - 2399:2399
+      - 5003:5003
+      # - 16001:16001
+    volumes:
+      - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data
+
+volumes:
+  fms:

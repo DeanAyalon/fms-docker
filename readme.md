@@ -11,23 +11,21 @@ To get the Docker FMS installation script as it is provided by Claris, install F
 # Use
 ## Downloads
 https://accounts.claris.com/software/license/FMS_LICENSE_CODE <br>
-Or use [the download script](.versions/download.sh) - Based on [.env](../.env)
+Or use [the download script](.versions/download.sh) - Based on [.env](.env)
 
 ## Pre-Installation
-Place the FileMaker Server installation .deb file within the appropriate [version](./prep/versions/) folder
+Place the FileMaker Server installation .deb file within the appropriate [version](./prep/versions/) folder.<br>
+If the version folder does not exist, it can be duplicated from one of the other version folders - But dockerfile may need to be modified to update dependencies.
 
-## Installation
-prep
-- compose.sh
-- (Within the prep container) install.sh
-  > This may in the future be integrated as an entrypoint in dockerfile
-- image.sh
-
-final
-- compose.sh
+## Installation (prep)
+- Compose: `docker compose up -d prep`
+- [install script](./prep/install.sh) - Executes the filemaker server installation within the container
+- (Optional) Add SSL certificate - Can also be done after running the finalized image
+- [image script](./prep/image.sh) (docker commit)
+> Since the final image is created via docker commit, the /install volume will be defined in the image, and always mounted
 
 ## Certificates
-> TODO: Check about automatic installation
+> TODO: Check about automatic installation with .env LICENSE
 
 - Login to the [Admin Console](https://localhost/admin-console) and import the certificate files
 - Restart FileMaker Server
@@ -37,15 +35,34 @@ Not to be confused with the "Restart Database Server" within the Admin Console
 
 Within the fms container
 ```sh
-sudo systemctl stop filemaker 
-sudo systemctl start filemaker 
+systemctl stop fmshelper
+systemctl start fmshelper
 ```
+> The service may be named `filemaker` in some cases.<br>
+TODO check
 
 # Errors
+## During Installation
 ### Failed to fetch URL    Temporary failute resolving 'DOMAIN'
 ```sh
 echo -e "nameserver 8.8.8.8\nnameserver 8.8.4.4" |tee -a /etc/resolv.conf
 ```
+
+### Permission error while Cleaning up 
+After configuring installation and credentials, the process may crash with something like this:
+```
+dpkg: error processing archive /tmp/apt-dpkg-install-M35WM6/092-filemaker-server-20.3.2.205-arm64.deb (--unpack):
+ error creating directory './opt/FileMaker/FileMaker Server/Data/Caches': Permission denied
+dpkg: error while cleaning up:
+ unable to remove newly-extracted version of '/opt/FileMaker/FileMaker Server/Data/Caches': Permission denied
+dpkg-deb: error: paste subprocess was killed by signal (Broken pipe)
+
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+```
+
+That indicates a permission error, and seems to occur when bind-mounting the data folder on arm64 machines (or at least on Yeda-Server).<br>
+Removing the `MOUNT` variable from .env seems to solve the problem.
+> Check if there's any permission level that would allow using a bind mount
 
 # Featured Technologies 
 ![FileMaker](https://img.shields.io/badge/claris-filemaker-black.svg?style=for-the-badge&logo=claris&logoColor=white)

@@ -7,6 +7,3 @@ prep/versions/*/*.deb
 # Environment
 *.env
 !template.env
-
-# Dynamic docker-compose
-prep/docker-compose.yml

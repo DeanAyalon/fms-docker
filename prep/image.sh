@@ -1,39 +1,32 @@
 #!/bin/bash
 
 # Execution context - fms-docker repo
-cd "$(dirname "$0")"/..
+cd "$(dirname "$0")/.."
 
 # env -> REPO, IMAGE, VERSION, UBUNTU, PROCESSOR
 [ ! -f .env ] && exit 1
 source .env
 
-# Major version
-ver=${VERSION%%.*}
-
 # Container name
-container=fms-$ver-prep
+container=fms-prep
 
-# Image name and tag
-if [ ! -z $REPO ]; then
-    tag=$IMAGE-$VERSION-u$UBUNTU-$PROCESSOR
-    image=$REPO:$tag                # ex: jackdeaniels/private:yeda-fms-19.6.4.402-u22-amd
-else
-    tag=$VERSION-u$UBUNTU-$PROCESSOR
-    image=$IMAGE:$tag
-fi
+# Image tag
+[ -z $PROCESSOR ] && PROCESSOR=amd
+tag=$VERSION-u$UBUNTU-$PROCESSOR
+[ ! -z $TAG_PREFIX ] && tag=$TAG_PREFIX-$tag
 
 # Commit running container into image
-echo Committing $container into $image
-docker commit $container $image
+echo Committing $container into $IMAGE
+docker commit $container $IMAGE:$tag
 echo Stopping $container 
 docker stop $container
 
 # Push
 if [ ! -z $REPO ]; then
-    read -n 1 -p "Push $tag to $REPO? [y/N]" push 
+    read -n 1 -p "Push $IMAGE:$tag? [y/N]" push 
     echo ""
     if [ "$push" == "y" ] || [ "$push" == "Y" ]; then
         docker login
-        docker push $image
+        docker push $IMAGE:$tag
     fi
 fi
