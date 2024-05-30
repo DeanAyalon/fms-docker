@@ -18,10 +18,11 @@ Place the FileMaker Server installation .deb file within the appropriate [versio
 If the version folder does not exist, it can be duplicated from one of the other version folders - But dockerfile may need to be modified to update dependencies.
 
 ## Installation (prep)
-- Compose: `docker compose up -d fms-prep`
+- Compose: `docker compose up -d prep`
 - [install script](./prep/install.sh) - Executes the filemaker server installation within the container
 - (Optional) Add SSL certificate - Can also be done after running the finalized image
 - [image script](./prep/image.sh) (docker commit)
+> Since the final image is created via docker commit, the /install volume will be defined in the image, and always mounted
 
 ## Certificates
 > TODO: Check about automatic installation with .env LICENSE
@@ -41,10 +42,27 @@ systemctl start fmshelper
 TODO check
 
 # Errors
+## During Installation
 ### Failed to fetch URL    Temporary failute resolving 'DOMAIN'
 ```sh
 echo -e "nameserver 8.8.8.8\nnameserver 8.8.4.4" |tee -a /etc/resolv.conf
 ```
+
+### Permission error while Cleaning up 
+After configuring installation and credentials, the process may crash with something like this:
+```
+dpkg: error processing archive /tmp/apt-dpkg-install-M35WM6/092-filemaker-server-20.3.2.205-arm64.deb (--unpack):
+ error creating directory './opt/FileMaker/FileMaker Server/Data/Caches': Permission denied
+dpkg: error while cleaning up:
+ unable to remove newly-extracted version of '/opt/FileMaker/FileMaker Server/Data/Caches': Permission denied
+dpkg-deb: error: paste subprocess was killed by signal (Broken pipe)
+
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+```
+
+That indicates a permission error, and seems to occur when bind-mounting the data folder on arm64 machines (or at least on Yeda-Server).<br>
+Removing the `MOUNT` variable from .env seems to solve the problem.
+> Check if there's any permission level that would allow using a bind mount
 
 # Featured Technologies 
 ![FileMaker](https://img.shields.io/badge/claris-filemaker-black.svg?style=for-the-badge&logo=claris&logoColor=white)

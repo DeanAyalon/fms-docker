@@ -11,7 +11,7 @@ services:
     privileged: true
     volumes:
       - ./prep/versions/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install
-      - ${DATA:-fms}:/opt/FileMaker/FileMaker Server/Data
+      - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data/
 
   fms:
     profiles:
