@@ -4,14 +4,15 @@ services:
     profiles:
       - prep
     build:
-      context: ./prep/versions/${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
+      context: ./prep/installations/fms/${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
       dockerfile: dockerfile
     container_name: fms-prep
     hostname: fms-prep
     privileged: true
     volumes:
-      - ./prep/versions/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install
-      - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data/
+      - ./prep/installations/fms/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install/fms
+      - ./prep/installations/devin:/install/devin
+      - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data
 
   fms:
     profiles:

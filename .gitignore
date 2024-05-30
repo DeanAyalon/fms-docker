@@ -1,8 +1,9 @@
 # Server Data
 data
 
-# FMS installation
-prep/versions/*/*.deb
+# installations
+*.deb
+*.zip
 
 # Environment
 *.env

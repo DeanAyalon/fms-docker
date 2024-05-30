@@ -7,4 +7,6 @@
 cd "$(dirname "$0")/.."
 source .env
 
-docker exec -itu0 fms-prep apt install /install/filemaker-server-$VERSION-${PROCESSOR}64.deb
+docker exec -itu0 fms-prep apt install /install/fms/filemaker-server-$VERSION-${PROCESSOR}64.deb
+
+# TODO devin (prompt)
