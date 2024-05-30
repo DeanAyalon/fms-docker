@@ -1,0 +1,1 @@
+docker exec -itu0 fms-prep /bin/bash /install/install.sh

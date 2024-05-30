@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Execution context - fms-docker repo
-cd "$(dirname "$0")/../.."
+cd "$(dirname "$0")/.."
 
 # env -> LICENSE
 source .env
