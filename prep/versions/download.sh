@@ -4,7 +4,6 @@
 cd "$(dirname "$0")/../.."
 
 # env -> LICENSE
-./env.sh
 source .env
 
 # Open downlosd link
@@ -19,12 +18,14 @@ if [ -z $LICENSE ]; then
     exit 1
 fi
 
-
+# Open URL
+echo Openning $url
 if [ $(uname) == "Linux" ]; then
-    xdg-open $baseUrl/$LICENSE
-    # On SSH, will open on the connecting machine, not host
+    # On HEADLESS SSH, will open on the connecting machine, not host
+        # On SSH, will require `export DISPLAY=:1`, and open on host
+    xdg-open $url
 elif [ $(uname) == "Darwin" ]; then
-    open $baseUrl/$LICENSE
+    open $url
 else
-    echo Open $baseUrl
+    echo Please open the URL manually
 fi

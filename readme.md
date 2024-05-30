@@ -11,20 +11,19 @@ To get the Docker FMS installation script as it is provided by Claris, install F
 # Use
 ## Downloads
 https://accounts.claris.com/software/license/FMS_LICENSE_CODE <br>
-Or use [the download script](.versions/download.sh) - Based on [.env](../.env)
+Or use [the download script](.versions/download.sh) - Based on [.env](.env)
 
 ## Pre-Installation
-Place the FileMaker Server installation .deb file within the appropriate [version](./prep/versions/) folder
+Place the FileMaker Server installation .deb file within the appropriate [version](./prep/versions/) folder.<br>
+If the version folder does not exist, it can be duplicated from one of the other version folders - But dockerfile may need to be modified to update dependencies.
 
-## Installation
-prep
-- compose.sh
-- (Within the prep container) install.sh
+## Installation (prep)
+- Compose (`docker compose up -d fms-prep`)
+- (Within the prep container) `/install/install.sh`
   > This may in the future be integrated as an entrypoint in dockerfile
-- image.sh
-
-final
-- compose.sh
+  > > That might prevent the final image from working<br>
+  > > Using a different entrypoint in compose would probably work, but it's not ideal for the image not to work as is
+- image.sh (docker commit)
 
 ## Certificates
 > TODO: Check about automatic installation
@@ -37,9 +36,11 @@ Not to be confused with the "Restart Database Server" within the Admin Console
 
 Within the fms container
 ```sh
-sudo systemctl stop filemaker 
-sudo systemctl start filemaker 
+systemctl stop fmshelper
+systemctl start fmshelper
 ```
+> The service may be named `filemaker` in some cases.<br>
+TODO check
 
 # Errors
 ### Failed to fetch URL    Temporary failute resolving 'DOMAIN'
