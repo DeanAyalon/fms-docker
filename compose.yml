@@ -6,12 +6,11 @@ services:
     build:
       context: ./prep/versions/${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
       dockerfile: dockerfile
-    image: fms:prep-${VERSION}
     container_name: fms-prep
     hostname: fms-prep
     privileged: true
     volumes:
-      - ./versions/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install
+      - ./prep/versions/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install
       - ${DATA:-fms}:/opt/FileMaker/FileMaker Server/Data
 
   fms:
