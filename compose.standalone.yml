@@ -1,0 +1,7 @@
+services:
+  fms:
+    extends:
+      file: compose.yml
+      service: fms
+    ports:
+      - 443:443

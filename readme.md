@@ -20,6 +20,7 @@ If the version folder does not exist, it can be duplicated from one of the other
 ## Installation (prep)
 - Compose: `docker compose up -d prep`
 - [install script](./prep/install.sh) - Executes the filemaker server installation within the container
+    - Afterwards, user will be prompted and instructed on how to install Devin.fm
 - (Optional) Add SSL certificate - Can also be done after running the finalized image
 - [image script](./prep/image.sh) (docker commit)
 > Since the final image is created via docker commit, the /install volume will be defined in the image, and always mounted
@@ -29,6 +30,16 @@ If the version folder does not exist, it can be duplicated from one of the other
 
 - Login to the [Admin Console](https://localhost/admin-console) and import the certificate files
 - Restart FileMaker Server
+
+## Compose Files
+### [compose.yml](./compose.yml)
+The base compose file, defines prep and fms
+
+### [compose.proxy.yml](./compose.proxy.yml)
+Defines environment variables for [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy), according to `.env`
+
+### [compose.standalone.yml](./compose.standalone.yml)
+When not using proxy, this compose file maps port 443 to host
 
 ## Restart FileMaker Server
 Not to be confused with the "Restart Database Server" within the Admin Console
@@ -74,7 +85,8 @@ E: Unable to fetch some archives, maybe run apt-get update or try with --fix-mis
 As suggested, `apt-get update` seems to fix the issue
 
 ### It was not possible to open the Devin Engine in fmsadmin
-Not sure of the cause, entering the `/tmp/install_devin` directory within the `fms-prep` container may fix it
+Not sure of the cause, entering the `/tmp/install_devin` directory within the `fms-prep` container may fix it.<br>
+Also note that the devin installation log is created within the terminal's context.
 > Install script now enters the container and instructs the user to execute the devin installation
 
 ## Devin
@@ -92,7 +104,7 @@ docker compose up -d fms
 ### Deployment - `Couldn't open the source file because "(804) : File cannot be opened as read only in its current state."`
 See [file permissions](#file-not-modifiable)
 
-## Development
+## FileMaker Pro
 ### File Not Modifiable
 Make sure the container has permissions to access the database file.<br>
 Set the file ownership using `chown fmsrver:fmsadmin filemakerapp.fmp12`
