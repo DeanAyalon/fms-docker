@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 source .env
 
 cmd="docker exec -itu0 fms-prep"
-$cmd apt install /install/fms/filemaker-server-$VERSION-${PROCESSOR}64.deb
+$cmd apt install /install/fms/filemaker-server-$VERSION-${PROCESSOR}64.deb || exit 1
 
 # TODO devin (prompt for confirmation)
 
@@ -20,9 +20,12 @@ if [ -f ./prep/installations/devin/install_devin_unix.zip ]; then
     if [ "$install_devin" = "Y" ] || [ "$install_devin" = "y" ]; then
         echo Installing Devin.fm...
         $cmd unzip /install/devin/install_devin_unix.zip -d /tmp
-        echo execute: \"/tmp/install_devin/install_devin_unix.sh\"
+        echo Execute the following commands: 
+        echo "  cd /tmp/install_devin"
+        echo "  ./install_devin_unix.sh"
         $cmd /bin/bash
         # For some reason, installing Devin from outside the container does not seem to work
+            # Try $cmd cd /tmp/install_devin; ./install_devin.unix.sh
         # $cmd /tmp/install_devin/install_devin_unix.sh
     fi
 fi

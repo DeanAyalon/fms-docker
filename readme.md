@@ -75,8 +75,9 @@ As suggested, `apt-get update` seems to fix the issue
 
 ### It was not possible to open the Devin Engine in fmsadmin
 Not sure of the cause, entering the `/tmp/install_devin` directory within the `fms-prep` container may fix it
+> Install script now enters the container and instructs the user to execute the devin installation
 
-## Devin Connection
+## Devin
 ### Cannot connect to Engine (Unknown). Make sure FileMaker Server is running and that the URL is correct.
 Make sure the container and fmshelper service within it are up, and container port 5003 is accessible.
 
@@ -88,10 +89,14 @@ docker compose down fms
 docker compose up -d fms
 ```
 
+### Deployment - `Couldn't open the source file because "(804) : File cannot be opened as read only in its current state."`
+See [file permissions](#file-not-modifiable)
+
 ## Development
 ### File Not Modifiable
 Make sure the container has permissions to access the database file.<br>
 Set the file ownership using `chown fmsrver:fmsadmin filemakerapp.fmp12`
+
 
 # Featured Technologies 
 ![FileMaker](https://img.shields.io/badge/claris-filemaker-black.svg?style=for-the-badge&logo=claris&logoColor=white)
