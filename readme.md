@@ -66,6 +66,16 @@ Removing the `MOUNT` variable from .env seems to solve the problem.
 
 > Currently strictly using named volumes, as bind mounts produce other permission errors
 
+### Failed to Fetch
+```console
+E: Failed to fetch http://[SOME-PACKAGE-URL].deb  404  Not Found [IP: SOME.IP]
+E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+```
+As suggested, `apt-get update` seems to fix the issue
+
+### It was not possible to open the Devin Engine in fmsadmin
+Not sure of the cause, entering the `/tmp/install_devin` directory within the `fms-prep` container may fix it
+
 ## Devin Connection
 ### Cannot connect to Engine (Unknown). Make sure FileMaker Server is running and that the URL is correct.
 Make sure the container and fmshelper service within it are up, and container port 5003 is accessible.

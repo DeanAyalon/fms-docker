@@ -16,4 +16,6 @@ services:
 
 volumes:
   fms:
-    name: ${VOLUME:-fms}
+    name: ${FMS_VOL:-fms}
+  devin:
+    name: ${DEVIN_VOL:-devin}

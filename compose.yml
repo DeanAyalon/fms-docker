@@ -11,8 +11,7 @@ services:
     volumes:
       - ./prep/installations/fms/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install/fms
       - ./prep/installations/devin:/install/devin
-      # - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data
-      - fms:/opt/FileMaker/FileMaker Server
+      # - fms:/opt/FileMaker/FileMaker Server
 
   fms:
     profiles:
@@ -30,6 +29,7 @@ services:
     volumes:
       # - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data
       - fms:/opt/FileMaker/FileMaker Server
+      - devin:/opt/Devin
 
       # - fms-admin-conf:/opt/FileMaker/FileMaker Server/Admin/conf:delegated
       # - fms-conf:/opt/FileMaker/FileMaker Server/conf:delegated
@@ -47,4 +47,6 @@ services:
 
 volumes:
   fms:
-    name: ${VOLUME:-fms}
+    name: ${FMS_VOL:-fms}
+  devin:
+    name: ${DEVIN_VOL:-devin}
