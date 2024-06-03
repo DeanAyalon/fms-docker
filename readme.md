@@ -52,6 +52,8 @@ systemctl start fmshelper
 > The service may be named `filemaker` in some cases.<br>
 TODO check
 
+> If not working, composing the container down and up again may help.
+
 # Errors
 ## Installation
 ### Failed to fetch URL    Temporary failute resolving 'DOMAIN'
@@ -89,6 +91,23 @@ Not sure of the cause, entering the `/tmp/install_devin` directory within the `f
 Also note that the devin installation log is created within the terminal's context.
 > Install script now enters the container and instructs the user to execute the devin installation
 
+### ./install_devin_unix.sh: line 685: /usr/bin/jq: cannot execute binary file: Exec format error
+The jq package installed by the Devin installer may be incompatible with arm64.<br>
+Doing `sudo apt-get install jq` within the container solves the issue.
+
+## Compose
+### Port not available
+To find which service is taking up a port, use `sudo lsof -l :<port>`.<br>
+You can kill those services using `sudo kill -9 <PID>`, but you should exhaust the proper operations first
+
+#### Port 5003
+If FileMaker Pro is running, close it and try again, you'll be able to open it afterwards.
+
+#### Port 443
+Some service is taking up port 443. If this is FileMaker Server, use `systemctl` or `launchctl` to stop it.<br>
+- Linux: `sudo systemctl (stop/start) fmshelper`
+- MacOS: `sudo launchctl (stop/start) com.filemaker.fms`
+
 ## Devin
 ### Cannot connect to Engine (Unknown). Make sure FileMaker Server is running and that the URL is correct.
 Make sure the container and fmshelper service within it are up, and container port 5003 is accessible.
@@ -108,7 +127,6 @@ See [file permissions](#file-not-modifiable)
 ### File Not Modifiable
 Make sure the container has permissions to access the database file.<br>
 Set the file ownership using `chown fmsrver:fmsadmin filemakerapp.fmp12`
-
 
 # Featured Technologies 
 ![FileMaker](https://img.shields.io/badge/claris-filemaker-black.svg?style=for-the-badge&logo=claris&logoColor=white)
