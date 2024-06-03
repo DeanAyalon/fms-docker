@@ -11,7 +11,7 @@ To get the Docker FMS installation script as it is provided by Claris, install F
 # Use
 ## Downloads
 https://accounts.claris.com/software/license/FMS_LICENSE_CODE <br>
-Or use [the download script](.versions/download.sh) - Based on [.env](.env)
+Or use the [download script](.versions/download.sh) - Based on [.env](.env)
 
 ## Pre-Installation
 Place the FileMaker Server installation .deb file within the appropriate [version](./prep/versions/) folder.<br>
@@ -21,15 +21,17 @@ If the version folder does not exist, it can be duplicated from one of the other
 - Compose: `docker compose up -d prep`
 - [install script](./prep/install.sh) - Executes the filemaker server installation within the container
     - Afterwards, user will be prompted and instructed on how to install Devin.fm
-- (Optional) Add SSL certificate - Can also be done after running the finalized image
 - [image script](./prep/image.sh) (docker commit)
 > Since the final image is created via docker commit, the /install volume will be defined in the image, and always mounted
 
-## Certificates
-> TODO: Check about automatic installation with .env LICENSE
-
+## Post-Installation
+### Certificates
 - Login to the [Admin Console](https://localhost/admin-console) and import the certificate files
-- Restart FileMaker Server
+- Restart FileMaker Server, or the container
+
+### Use Existing Databases
+Use the [copy-db script](./scripts/copy-db.sh) to copy a database into the fms container. And subsequently, into the `$FMS_VOL` volume defined in `.env`.<br>
+This will handle the necessary permissions, and copy the db into the Databases folder
 
 ## Compose Files
 ### [compose.yml](./compose.yml)
