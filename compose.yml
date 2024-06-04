@@ -5,6 +5,7 @@ services:
     build:
       context: ./prep/installations/fms/${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
       dockerfile: dockerfile
+    image: fms-prep:${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
     container_name: fms-prep
     hostname: fms-prep
     privileged: true
