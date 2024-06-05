@@ -6,15 +6,18 @@ Not yet working on arm processors (Or Yeda-Server, at least)
 
 ## Submodule Access
 This repository has a git submodule set to the claris-script directory. The submodule is a private repository and the script may only be accessed internally by me.<br>
-To get the Docker FMS installation script as it is provided by Claris, install FileMaker Server on a machine, and you'll find the script in the following path: `/opt/FileMaker/FileMaker Server/Tools/Docker`.
+To get the Docker FMS installation script as it is provided by Claris, install **FileMaker Server 2023** (v20.3.2.205) on a machine, and you'll find the script in the following path: `/opt/FileMaker/FileMaker Server/Tools/Docker`.
+
+> The script is not available in FileMaker Server 2024 (v21.0.1.51)
 
 # Use
 ## Downloads
+First, download the FileMaker Server installation files.<br>
 https://accounts.claris.com/software/license/FMS_LICENSE_CODE <br>
-Or use the [download script](.versions/download.sh) - Based on [.env](.env)
+Or use the [download script](.versions/download.sh) - Based on [.env](.env) `LICENSE` variable
 
 ## Pre-Installation
-Place the FileMaker Server installation .deb file within the appropriate [version](./prep/versions/) folder.<br>
+Place the FileMaker Server installation `.deb` file within the appropriate [version](./prep/versions/) folder.<br>
 If the version folder does not exist, it can be duplicated from one of the other version folders - But dockerfile may need to be modified to update dependencies.
 
 ## Installation (prep)
@@ -22,7 +25,6 @@ If the version folder does not exist, it can be duplicated from one of the other
 - [install script](./prep/install.sh) - Executes the filemaker server installation within the container
     - Afterwards, user will be prompted and instructed on how to install Devin.fm
 - [image script](./prep/image.sh) (docker commit)
-> Since the final image is created via docker commit, the /install volume will be defined in the image, and always mounted
 
 ## Post-Installation
 ### Certificates
@@ -32,6 +34,8 @@ If the version folder does not exist, it can be duplicated from one of the other
 ### Use Existing Databases
 Use the [copy-db script](./scripts/copy-db.sh) to copy a database into the fms container. And subsequently, into the `$FMS_VOL` volume defined in `.env`.<br>
 This will handle the necessary permissions, and copy the db into the Databases folder
+
+> Will in the future support the Secure folder, and custom directories
 
 ## Compose Files
 ### [compose.yml](./compose.yml)
@@ -56,7 +60,7 @@ TODO check
 
 > If not working, composing the container down and up again may help.
 
-# Errors
+# ⚠️ Errors ⚠️
 See [Errors](./docs/errors.md)
 
 # Featured Technologies 
