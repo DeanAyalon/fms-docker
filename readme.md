@@ -20,6 +20,7 @@ If the version folder does not exist, it can be duplicated from one of the other
 ## Installation (prep)
 - Compose: `docker compose up -d prep`
 - [install script](./prep/install.sh) - Executes the filemaker server installation within the container
+  > If installing Devin.fm, make sure to choose an admin-console password that does NOT contain ':'
     - Afterwards, user will be prompted and instructed on how to install Devin.fm
 - [image script](./prep/image.sh) (docker commit)
 > Since the final image is created via docker commit, the /install volume will be defined in the image, and always mounted
