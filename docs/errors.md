@@ -1,6 +1,6 @@
 # Errors
 ## Installation
-### Failed to fetch URL    Temporary failute resolving 'DOMAIN'
+### Failed to fetch URL - Temporary failure resolving 'DOMAIN'
 ```sh
 echo -e "nameserver 8.8.8.8\nnameserver 8.8.4.4" |tee -a /etc/resolv.conf
 ```
