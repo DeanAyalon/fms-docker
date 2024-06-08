@@ -7,16 +7,18 @@ container=fms-prep
 cmd() {
     docker exec -itu0 $FMS_PREP_CONTEXT $@
 }
+export FMS_PREP_CONTEXT=$container
+
+# Update OS
+cmd apt-get update
 
 # Mounted installation script for each version, in case Claris changes installation file naming convention
-docker exec -itu0 fms-prep /bin/bash /install/install.sh
+cmd /install/install.sh
 
 # Execution context
 cd "$(dirname "$0")/.."
 source .env
 
-# Container context
-export FMS_PREP_CONTEXT=$container
 
 # Install FileMaker Server
 cmd apt install /install/fms/filemaker-server-$VERSION-${PROCESSOR}64.deb || exit 1
