@@ -2,8 +2,11 @@
 This repository is made to create Docker containers running FileMaker Server, after failing with the scripts supplied by Claris.
 
 ## Supported versions
-This repository supports FileMaker Server versions 19 and 20.<br>
-The available versions are 19.6.4.402 and 20.3.2.205, versions different than those will require manual dockerfile creation. This should be a simple process, usually just updating packages.
+This repository supports FileMaker Server versions 19 through 21.<br>
+The available versions are 19.6.4.402, 20.3.2.205 and 21.0.1.51, versions different than those will require manual dockerfile creation. This should be a simple process, usually just updating packages.
+
+> May be changed in the future, currently v20 and v21 use the same dockerfiles (So, dockerfile.u20 and dockerfile.u22)
+> > Test using `ubuntu` instead of `amd64/ubuntu` and `arm64v8/ubuntu`
 
 ## Submodule Access
 This repository has a few git submodules set to private repositories. **They are not required for execution of this repository!** 
