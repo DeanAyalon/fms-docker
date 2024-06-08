@@ -1,20 +1,30 @@
 # What is this?
 This repository is made to create Docker containers running FileMaker Server, after failing with the scripts supplied by Claris.
 
-## Current State
-Not yet working on arm processors (Or Yeda-Server, at least)
+## Supported versions
+This repository supports FileMaker Server versions 19 and 20.<br>
+The available versions are 19.6.4.402 and 20.3.2.205, versions different than those will require manual dockerfile creation. This should be a simple process, usually just updating packages.
 
 ## Submodule Access
-This repository has a git submodule set to the claris-script directory. The submodule is a private repository and the script may only be accessed internally by me.<br>
-To get the Docker FMS installation script as it is provided by Claris, install **FileMaker Server 2023** (v20.3.2.205) on a machine, and you'll find the script in the following path: `/opt/FileMaker/FileMaker Server/Tools/Docker`.
+This repository has a few git submodules set to private repositories. **They are not required for execution of this repository!** 
+
+### claris-fms-docker
+The official Claris Docker script directory. The submodule is here for my testing purposes only<br>
+To get the Docker FMS installation script as it is provided by Claris, install FileMaker Server on a machine, and you'll find the script in the following path: `/opt/FileMaker/FileMaker Server/Tools/Docker`.
 
 > The script is not available in FileMaker Server 2024 (v21.0.1.51)
+
+### install_devin
+A fork of the official [Devin.fm](https://devin.fm) installation script for UNIX ([download](https://download.devin.fm/downloads/server/latest/install_devin_unix.zip)).<br>
+Propsed a modification and sent it to the developers, so that the script works regardless of execution context.
 
 # Use
 ## Downloads
 First, download the FileMaker Server installation files.<br>
 https://accounts.claris.com/software/license/FMS_LICENSE_CODE <br>
 Or use the [download script](.versions/download.sh) - Based on [.env](.env) `LICENSE` variable
+
+For Devin.fm, also download the [installation script](https://download.devin.fm/downloads/server/latest/instlal_devin_unix.zip), and place it within [its installation directory](./prep/installations/devin/)
 
 ## Pre-Installation
 Place the FileMaker Server installation `.deb` file within the appropriate [version](./prep/versions/) folder.<br>
@@ -23,8 +33,12 @@ If the version folder does not exist, it can be duplicated from one of the other
 ## Installation (prep)
 - Compose: `docker compose up -d prep`
 - [install script](./prep/install.sh) - Executes the filemaker server installation within the container
+  > If installing Devin.fm, make sure to choose an admin-console password that does NOT contain ':'
     - Afterwards, user will be prompted and instructed on how to install Devin.fm
 - [image script](./prep/image.sh) (docker commit)
+
+**Do NOT upload the final image publicly, as it includes your admin-console credentials!**<br>
+It may also include your Devin API key for staging/production servers using Devin.fm
 
 ## Post-Installation
 ### Certificates
@@ -55,8 +69,6 @@ Within the fms container
 systemctl stop fmshelper
 systemctl start fmshelper
 ```
-> The service may be named `filemaker` in some cases.<br>
-TODO check
 
 > If not working, composing the container down and up again may help.
 
@@ -66,6 +78,7 @@ See [Errors](./docs/errors.md)
 # Featured Technologies 
 ![FileMaker](https://img.shields.io/badge/claris-filemaker-black.svg?style=for-the-badge&logo=claris&logoColor=white)
 [![FileMaker Server](https://img.shields.io/badge/claris-FileMaker_Server-black.svg?style=for-the-badge&logo=claris&logoColor=white)](https://www.credly.com/earner/earned/badge/bbdd64a9-b1e0-48ac-9ab0-bbfb4d737204) 
+[![Devin.fm](https://custom-icon-badges.demolab.com/badge/devin.fm-120e6d.svg?style=for-the-badge&logo=devin.fm)](https://devin.fm)
 
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/DeanAyalon/verdaccio/pkgs/container/verdaccio)
 
