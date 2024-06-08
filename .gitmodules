@@ -1,6 +1,6 @@
 [submodule "claris-script"]
-	path = claris-fms-docker
+	path = private/claris-fms-docker
 	url = https://github.com/DeanAyalon/claris-fms-docker.git
 [submodule "install_devin"]
-	path = install_devin
+	path = private/install_devin
 	url = https://github.com/DeanAyalon/install_devin_unix
