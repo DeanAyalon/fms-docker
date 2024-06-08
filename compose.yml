@@ -1,17 +1,18 @@
-name: filemaker
 services:
   prep: 
     profiles:
       - prep
     build:
-      context: ./prep/versions/${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
+      context: ./prep/installations/fms/${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
       dockerfile: dockerfile
+    image: fms-prep:${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
     container_name: fms-prep
     hostname: fms-prep
     privileged: true
     volumes:
-      - ./prep/versions/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install
-      - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data/
+      - ./prep/installations/fms/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install/fms
+      - ./prep/installations/devin:/install/devin
+      # - fms:/opt/FileMaker/FileMaker Server
 
   fms:
     profiles:
@@ -27,7 +28,26 @@ services:
       - 5003:5003
       # - 16001:16001
     volumes:
-      - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data
+      # - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data
+      - fms:/opt/FileMaker/FileMaker Server
+      - devin:/opt/Devin
+
+      # - fms-admin-conf:/opt/FileMaker/FileMaker Server/Admin/conf:delegated
+      # - fms-conf:/opt/FileMaker/FileMaker Server/conf:delegated
+      # - fms-data-backups:/opt/FileMaker/FileMaker Server/Data/Backups/:delegated
+      # - fms-data-databases:/opt/FileMaker/FileMaker Server/Data/Databases/:delegated
+      # - fms-data-preferences:/opt/FileMaker/FileMaker Server/Data/Preferences/:delegated
+      # - fms-data-scripts:/opt/FileMaker/FileMaker Server/Data/Scripts/:delegated
+      # - fms-dbserver-extensions:/opt/FileMaker/FileMaker Server/Database Server/Extensions/:delegated
+      # - fms-http-dotconf:/opt/FileMaker/FileMaker Server/HTTPServer/.conf:delegated
+      # - fms-http-conf:/opt/FileMaker/FileMaker Server/HTTPServer/conf:delegated
+      # - fms-http-htdocs:/opt/FileMaker/FileMaker Server/HTTPServer/htdocs:delegated
+      # - fms-http-logs:/opt/FileMaker/FileMaker Server/HTTPServer/logs:delegated
+      # - fms-logs:/opt/FileMaker/FileMaker Server/Logs:delegated
+      # - fms-webpub-conf:/opt/FileMaker/FileMaker Server/Web Publishing/conf:delegated
 
 volumes:
   fms:
+    name: ${FMS_VOL:-fms}
+  devin:
+    name: ${DEVIN_VOL:-devin}

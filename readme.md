@@ -1,34 +1,65 @@
 # What is this?
 This repository is made to create Docker containers running FileMaker Server, after failing with the scripts supplied by Claris.
 
-## Current State
-Not yet working on arm processors (Or Yeda-Server, at least)
+## Supported versions
+This repository supports FileMaker Server versions 19 and 20.<br>
+The available versions are 19.6.4.402 and 20.3.2.205, versions different than those will require manual dockerfile creation. This should be a simple process, usually just updating packages.
 
 ## Submodule Access
-This repository has a git submodule set to the claris-script directory. The submodule is a private repository and the script may only be accessed internally by me.<br>
+This repository has a few git submodules set to private repositories. **They are not required for execution of this repository!** 
+
+### claris-fms-docker
+The official Claris Docker script directory. The submodule is here for my testing purposes only<br>
 To get the Docker FMS installation script as it is provided by Claris, install FileMaker Server on a machine, and you'll find the script in the following path: `/opt/FileMaker/FileMaker Server/Tools/Docker`.
+
+> The script is not available in FileMaker Server 2024 (v21.0.1.51)
+
+### install_devin
+A fork of the official [Devin.fm](https://devin.fm) installation script for UNIX ([download](https://download.devin.fm/downloads/server/latest/install_devin_unix.zip)).<br>
+Propsed a modification and sent it to the developers, so that the script works regardless of execution context.
 
 # Use
 ## Downloads
+First, download the FileMaker Server installation files.<br>
 https://accounts.claris.com/software/license/FMS_LICENSE_CODE <br>
-Or use [the download script](.versions/download.sh) - Based on [.env](.env)
+Or use the [download script](.versions/download.sh) - Based on [.env](.env) `LICENSE` variable
+
+For Devin.fm, also download the [installation script](https://download.devin.fm/downloads/server/latest/instlal_devin_unix.zip), and place it within [its installation directory](./prep/installations/devin/)
 
 ## Pre-Installation
-Place the FileMaker Server installation .deb file within the appropriate [version](./prep/versions/) folder.<br>
+Place the FileMaker Server installation `.deb` file within the appropriate [version](./prep/versions/) folder.<br>
 If the version folder does not exist, it can be duplicated from one of the other version folders - But dockerfile may need to be modified to update dependencies.
 
 ## Installation (prep)
 - Compose: `docker compose up -d prep`
 - [install script](./prep/install.sh) - Executes the filemaker server installation within the container
-- (Optional) Add SSL certificate - Can also be done after running the finalized image
+  > If installing Devin.fm, make sure to choose an admin-console password that does NOT contain ':'
+    - Afterwards, user will be prompted and instructed on how to install Devin.fm
 - [image script](./prep/image.sh) (docker commit)
-> Since the final image is created via docker commit, the /install volume will be defined in the image, and always mounted
 
-## Certificates
-> TODO: Check about automatic installation with .env LICENSE
+**Do NOT upload the final image publicly, as it includes your admin-console credentials!**<br>
+It may also include your Devin API key for staging/production servers using Devin.fm
 
+## Post-Installation
+### Certificates
 - Login to the [Admin Console](https://localhost/admin-console) and import the certificate files
-- Restart FileMaker Server
+- Restart FileMaker Server, or the container
+
+### Use Existing Databases
+Use the [copy-db script](./scripts/copy-db.sh) to copy a database into the fms container. And subsequently, into the `$FMS_VOL` volume defined in `.env`.<br>
+This will handle the necessary permissions, and copy the db into the Databases folder
+
+> Will in the future support the Secure folder, and custom directories
+
+## Compose Files
+### [compose.yml](./compose.yml)
+The base compose file, defines prep and fms
+
+### [compose.proxy.yml](./compose.proxy.yml)
+Defines environment variables for [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy), according to `.env`
+
+### [compose.standalone.yml](./compose.standalone.yml)
+When not using proxy, this compose file maps port 443 to host
 
 ## Restart FileMaker Server
 Not to be confused with the "Restart Database Server" within the Admin Console
@@ -38,35 +69,16 @@ Within the fms container
 systemctl stop fmshelper
 systemctl start fmshelper
 ```
-> The service may be named `filemaker` in some cases.<br>
-TODO check
 
-# Errors
-## During Installation
-### Failed to fetch URL    Temporary failute resolving 'DOMAIN'
-```sh
-echo -e "nameserver 8.8.8.8\nnameserver 8.8.4.4" |tee -a /etc/resolv.conf
-```
+> If not working, composing the container down and up again may help.
 
-### Permission error while Cleaning up 
-After configuring installation and credentials, the process may crash with something like this:
-```
-dpkg: error processing archive /tmp/apt-dpkg-install-M35WM6/092-filemaker-server-20.3.2.205-arm64.deb (--unpack):
- error creating directory './opt/FileMaker/FileMaker Server/Data/Caches': Permission denied
-dpkg: error while cleaning up:
- unable to remove newly-extracted version of '/opt/FileMaker/FileMaker Server/Data/Caches': Permission denied
-dpkg-deb: error: paste subprocess was killed by signal (Broken pipe)
-
-E: Sub-process /usr/bin/dpkg returned an error code (1)
-```
-
-That indicates a permission error, and seems to occur when bind-mounting the data folder on arm64 machines (or at least on Yeda-Server).<br>
-Removing the `MOUNT` variable from .env seems to solve the problem.
-> Check if there's any permission level that would allow using a bind mount
+# ⚠️ Errors ⚠️
+See [Errors](./docs/errors.md)
 
 # Featured Technologies 
 ![FileMaker](https://img.shields.io/badge/claris-filemaker-black.svg?style=for-the-badge&logo=claris&logoColor=white)
 [![FileMaker Server](https://img.shields.io/badge/claris-FileMaker_Server-black.svg?style=for-the-badge&logo=claris&logoColor=white)](https://www.credly.com/earner/earned/badge/bbdd64a9-b1e0-48ac-9ab0-bbfb4d737204) 
+[![Devin.fm](https://custom-icon-badges.demolab.com/badge/devin.fm-120e6d.svg?style=for-the-badge&logo=devin.fm)](https://devin.fm)
 
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/DeanAyalon/verdaccio/pkgs/container/verdaccio)
 

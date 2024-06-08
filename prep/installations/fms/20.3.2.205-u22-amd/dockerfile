@@ -1,4 +1,4 @@
-FROM amd64/ubuntu:20.04
+FROM amd64/ubuntu:22.04
 
 # update all software download sources
 RUN DEBIAN_FRONTEND=noninteractive      \
@@ -25,11 +25,11 @@ RUN DEBIAN_FRONTEND=noninteractive      \
         libaio1                         \
         libantlr3c-3.4-0                \
         libavahi-client3                \
-        libboost-chrono1.71.0           \
-        libboost-system1.71.0           \
-        libboost-thread1.71.0           \
+        libboost-chrono1.74.0           \
+        libboost-system1.74.0           \
+        libboost-thread1.74.0           \
         libbz2-1.0                      \
-        libc++1-12                      \
+        libc++1-14                      \
         libcurl3-gnutls                 \
         libcurl4-gnutls-dev             \
         libcurl4                        \
@@ -41,21 +41,21 @@ RUN DEBIAN_FRONTEND=noninteractive      \
         libfreetype6                    \
         libgomp1                        \
         libheif1                        \
-        libicu66                        \
-        libilmbase24                    \
+        libicu70                        \
+        libilmbase25                    \
         libjpeg-turbo8                  \
         liblqr-1-0                      \
         liblzma5                        \
         libodbc1                        \
         libomniorb4-2                   \
-        libomp5-12                      \
-        libopenexr24                    \
+        libomp5-14                      \
+        libopenexr25                    \
         libpam0g                        \
         libpng16-16                     \
         libsasl2-2                      \
         libtiff5                        \
         libuuid1                        \
-        libvpx6                         \
+        libvpx7                         \
         libwebpdemux2                   \
         libwebpmux3                     \
         libxml2                         \
@@ -72,6 +72,8 @@ RUN DEBIAN_FRONTEND=noninteractive      \
         unzip                           \
         zip                             \
         zlib1g
+
+RUN apt-get update
 
 # install user management
 RUN DEBIAN_FRONTEND=noninteractive      \
@@ -91,9 +93,6 @@ EXPOSE 80
 EXPOSE 443
 EXPOSE 2399
 EXPOSE 5003
-
-# Mounts
-VOLUME [ "/install", "/opt/FileMaker/FileMaker Server/Data" ]
 
 # when containers run, start this command as root to initialize user management
 USER root

@@ -73,6 +73,8 @@ RUN DEBIAN_FRONTEND=noninteractive      \
         zip                             \
         zlib1g
 
+RUN apt-get update
+
 # install user management
 RUN DEBIAN_FRONTEND=noninteractive      \
 apt install                      -y \
@@ -91,9 +93,6 @@ EXPOSE 80
 EXPOSE 443
 EXPOSE 2399
 EXPOSE 5003
-
-# Mounts
-VOLUME [ "/install", "/opt/FileMaker/FileMaker Server/Data" ]
 
 # when containers run, start this command as root to initialize user management
 USER root

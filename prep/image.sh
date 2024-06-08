@@ -16,7 +16,7 @@ tag=$VERSION-u$UBUNTU-$PROCESSOR
 [ ! -z $TAG_PREFIX ] && tag=$TAG_PREFIX-$tag
 
 # Commit running container into image
-echo Committing $container into $IMAGE
+echo Committing $container into $IMAGE:$tag
 docker commit $container $IMAGE:$tag
 echo Stopping $container 
 docker stop $container
