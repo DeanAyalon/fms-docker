@@ -5,7 +5,7 @@ container=fms-prep
 
 # Execute command within the container
 cmd() {
-    echo docker exec -itu0 $FMS_PREP_CONTEXT $@
+    docker exec -itu0 $FMS_PREP_CONTEXT $@
 }
 
 # Mounted installation script for each version, in case Claris changes installation file naming convention
