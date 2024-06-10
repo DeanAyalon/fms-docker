@@ -35,10 +35,6 @@ Not sure of the cause, entering the `/tmp/install_devin` directory within the `f
 Also note that the devin installation log is created within the terminal's context.
 > Install script now enters the container and instructs the user to execute the devin installation
 
-### ./install_devin_unix.sh: line 685: /usr/bin/jq: cannot execute binary file: Exec format error
-The jq package installed by the Devin installer may be incompatible with arm64.<br>
-Doing `sudo apt-get install jq` within the container solves the issue.
-
 ## Compose
 ### Port not available
 To find which service is taking up a port, use `sudo lsof -l :<port>`.<br>
