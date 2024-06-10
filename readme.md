@@ -13,9 +13,13 @@ This repository has a few git submodules set to private repositories. **They are
 
 ### claris-fms-docker
 The official Claris Docker script directory. The submodule is here for my testing purposes only<br>
-To get the Docker FMS installation script as it is provided by Claris, install FileMaker Server on a machine, and you'll find the script in the following path: `/opt/FileMaker/FileMaker Server/Tools/Docker`.
+To get the Docker FMS installation script as it is provided by Claris, you must have access to a FileMaker Server installation.
 
-> The script is not available in FileMaker Server 2024 (v21.0.1.51)
+#### FileMaker Server 2023 (v20)
+Install FileMaker Server 20 on a machine, and you'll find the script in the following path: `/opt/FileMaker/FileMaker Server/Tools/Docker`.
+
+#### FileMaker Server 2024 (v21)
+The script will be available in the `Docker` directory within the FMS-21 installation package
 
 ### install_devin
 A fork of the official [Devin.fm](https://devin.fm) installation script for UNIX ([download](https://download.devin.fm/downloads/server/latest/install_devin_unix.zip)).<br>
