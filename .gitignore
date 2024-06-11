@@ -8,3 +8,6 @@ mount
 # Environment
 *.env
 !template.env
+
+# Secrets
+secret
