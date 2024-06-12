@@ -1,7 +1,14 @@
 # Help dialog
 help() {
     echo Use: $0 [options] [path]
-    echo Warning! Overrides existing files!
+    echo Options:
+    echo "  -h  Display this help dialog"
+    echo
+    echo NOT YET IMPLEMENTED:
+    echo "  -n  Change the name of this database before copying"
+    echo "  -d  Copy the db to a custom database directory"
+    echo "  -S  Copy the db to the Secure database directory"
+    echo "  -c  Copy Devin.fm commits to their respective directory"
 }
 
 # Specify filepath

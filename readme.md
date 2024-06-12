@@ -1,7 +1,13 @@
-# What is this?
-This repository is made to create Docker containers running FileMaker Server, after failing with the scripts supplied by Claris.
+# Purpose
+This repository is made to create Docker containers running FileMaker Server, and optionally Devin.fm.
 
-## Supported versions
+## What about the official script?
+The official Claris FMS-Docker script only supports Ubuntu 20.04 and 22.04.<br>
+My repository should work for any UNIX based OS, with these having been tested:
+- Manjaro (Arch) v6.9.2.1
+- MacOS Ventura 13.6.7
+
+## Supported FMS versions
 This repository supports FileMaker Server versions 19 through 21.<br>
 The available versions are 19.6.4.402, 20.3.2.205 and 21.0.1.51, versions different than those will require manual dockerfile creation. This should be a simple process, usually just updating packages.
 
