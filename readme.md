@@ -30,7 +30,7 @@ The script will be available in the `Docker` directory within the FMS-21 install
 
 ### install_devin
 A fork of the official [Devin.fm](https://devin.fm) installation script for UNIX ([download](https://download.devin.fm/downloads/server/latest/install_devin_unix.zip)).<br>
-Propsed a modification and sent it to the developers, so that the script works regardless of execution context.
+Proposed a modification and sent it to the developers, so that the script works regardless of execution context.
 
 # Use
 ## Downloads
@@ -55,6 +55,10 @@ If the version folder does not exist, it can be duplicated from one of the other
 It may also include your Devin API key for staging/production servers using Devin.fm
 
 ## Post-Installation
+### Bind Mounts
+The default mounts used are found within the [mounts directory](./mounts/), to use a different path, change the `$*_MOUNT` variables in [.env](./.env).<br>
+> Make sure the mounted directory has RWX permissions for both the user and group!
+
 ### Certificates
 - Login to the [Admin Console](https://localhost/admin-console) and import the certificate files
 - Restart FileMaker Server, or the container

@@ -1,5 +1,6 @@
 # Mounts
-mount
+mounts/*/*
+!mounts/*/.gitkeep
 
 # installations
 *.deb

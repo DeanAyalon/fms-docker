@@ -28,9 +28,11 @@ services:
       - 5003:5003
       # - 16001:16001
     volumes:
-      # - ${MOUNT:-fms}:/opt/FileMaker/FileMaker Server/Data
       - fms:/opt/FileMaker/FileMaker Server
       - devin:/opt/Devin
+      - ${FILES_MOUNT:-./mounts/files}:/opt/FileMaker/FileMaker Server/Data/Databases/RC_Data_FMS:rw
+      - ${BACKUPS_MOUNT:-./mounts/backups}:/opt/FileMaker/FileMaker Server/Data/Backups:rw
+      - ${CLONES_MOUNT:-./mounts/clones}:/opt/FileMaker/FileMaker Server/Data/ClonesOnly:rw
 
       # - fms-admin-conf:/opt/FileMaker/FileMaker Server/Admin/conf:delegated
       # - fms-conf:/opt/FileMaker/FileMaker Server/conf:delegated

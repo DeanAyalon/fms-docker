@@ -67,3 +67,25 @@ See [file permissions](#file-not-modifiable)
 ### File Not Modifiable
 Make sure the container has permissions to access the database file.<br>
 Set the file ownership using `chown fmsrver:fmsadmin filemakerapp.fmp12`
+
+### External Files - Saved in Wrong Directory, or "Unable to write to file system" Error
+If FileMaker creates the path `/opt/FileMaker/FileMaker Server/Data/Databases/Base Software` within the fms container, instead of saving the external files within `/opt/FileMaker/FileMaker Server/Data/Databases/RC_Data_FMS` directory that is bound to $FILES_MOUNT<br>
+This is likely due to lack of write permissions to the mounted directory - The directory should allow write permission to the group.
+```sh
+chmod g+w [bind/mount/path]
+```
+
+> Executing `ls -l` should result in:<br>
+> `drwxrwx--- ... <user> <group> ... <directory>`
+
+### External Files - No Host Access
+If your host machine does not have access to read the files within the bind mount, this may be due to the ownership configuration of the directory.<br>
+If the path on the host was created by Docker Compose, the default ownership assigned to the directory would be `root:root`.
+
+Changing the ownership of the directory should allow host access without harming the container's permissions
+```sh
+sudo chown $USER:root [bind/mount/path]
+# OR
+sudo chown $USER:$USER [bind/mount/path]
+```
+
