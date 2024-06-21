@@ -15,7 +15,7 @@ help() {
 if [ -z "$1" ]; then
     help
     exit 1
-elif [ $1 = "-h" ]; then        # Temporary, until flags are added
+elif [ "$1" = "-h" ]; then        # Temporary, until flags are added
     help
     exit 2
 fi

@@ -45,8 +45,8 @@ If FileMaker Pro is running, close it and try again, you'll be able to open it a
 
 #### Port 443
 Some service is taking up port 443. If this is FileMaker Server, use `systemctl` or `launchctl` to stop it.<br>
-- Linux: `sudo systemctl (stop/start) fmshelper`
-- MacOS: `sudo launchctl (stop/start) com.filemaker.fms`
+- **Linux**: `sudo systemctl (stop/start) fmshelper`
+- **MacOS**: `sudo launchctl (stop/start) com.filemaker.fms`
 
 ## Devin
 ### Cannot connect to Engine (Unknown). Make sure FileMaker Server is running and that the URL is correct.
