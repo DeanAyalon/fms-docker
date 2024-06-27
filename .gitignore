@@ -1,10 +1,10 @@
 # Mounts
 mounts/*/*
-!mounts/*/.gitkeep
 
-# installations
+# installation files
 *.deb
 *.zip
+prep/installations/others/*
 
 # Environment
 *.env
@@ -12,3 +12,9 @@ mounts/*/*
 
 # Secrets
 secret
+
+# Empty directories
+!.gitkeep
+
+# Documentation
+!*.md
