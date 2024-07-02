@@ -1,14 +1,18 @@
 # Help dialog
 help() {
-    echo Use: $0 [options] [path]
-    echo Options:
-    echo "  -h  Display this help dialog"
-    echo
-    echo NOT YET IMPLEMENTED:
-    echo "  -n  Change the name of this database before copying"
-    echo "  -d  Copy the db to a custom database directory"
-    echo "  -S  Copy the db to the Secure database directory"
-    echo "  -c  Copy Devin.fm commits to their respective directory"
+cat << EOF
+    Use: $0 [options] [path]
+    Copies a database into the container and handles permissions
+
+    Options:
+        -h  Display this help dialog
+    
+    NOT YET IMPLEMENTED:
+        -n  Change the name of this database before copying
+        -d  Copy the db to a custom database directory
+        -S  Copy the db to the Secure database directory
+        -c  Copy Devin.fm commits to their respective directory
+EOF
 }
 
 # Specify filepath
