@@ -41,6 +41,22 @@ services:
       # Sync time with host
       - /etc/localtime:/etc/localtime:ro
 
+  backup:
+    profiles:
+      - backup
+    image: ubuntu:22.04
+    container_name: fms-dev-backup
+    hostname: fms-dev-backup
+    stop_grace_period: 0s
+    volumes:
+      - fms:/fms:ro
+      - devin:/devin:ro
+      - ${DEV_BACKUP_MOUNT:-./mounts/dev-backup}:/backup
+    command: bash -c "
+      export timestamp=$(date +%Y-%m-%d-%H-%M-%S);
+      tar czvf /backup/fms-$$timestamp.tar.gz -C /fms .;
+      tar czvf /backup/devin-$$timestamp.tar.gz -C /devin ."
+
 volumes:
   fms:
     name: ${FMS_VOL:-fms}

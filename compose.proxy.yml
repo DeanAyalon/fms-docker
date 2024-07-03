@@ -1,3 +1,6 @@
+# This compose file generates the container with the proper environment variables for use with nginx-proxy
+# See: https://github.com/nginx-proxy/nginx-proxy
+
 services:
   fms-prep: 
     extends:
