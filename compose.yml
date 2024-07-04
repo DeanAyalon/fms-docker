@@ -54,12 +54,33 @@ services:
       # Sync timezone
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - FMS_VOL=$FMS_VOL
-      - DEVIN_VOL=$DEVIN_VOL
+      FMS_VOL: $FMS_VOL
+      DEVIN_VOL: $DEVIN_VOL
     command: bash -c "
       export timestamp=$(date +%Y-%m-%d-%H-%M-%S);
-      tar czvf /backup/$$FMS_VOL-$$timestamp.tar.gz -C /fms .;
-      tar czvf /backup/$$DEVIN_VOL-$$timestamp.tar.gz -C /devin ."
+      mkdir /backup/$$timestamp;
+      tar czvf /backup/$$timestamp/$$FMS_VOL.tar.gz -C /fms .;
+      tar czvf /backup/$$timestamp/$$DEVIN_VOL.tar.gz -C /devin ."
+
+  restore:
+    profiles:
+      - restore
+    image: ubuntu:22.04
+    container_name: fms-dev-restore
+    hostname: fms-dev-restore
+    stop_grace_period: 0s
+    volumes:
+      - fms:/vol/fms
+      - devin:/vol/devin
+      - ${DEV_BACKUP_MOUNT:-./mounts/dev-backup}:/backups
+    environment:
+      FMS_VOL: $FMS_VOL
+      DEVIN_VOL: $DEVIN_VOL
+    command: bash -c "
+      cd /backups;
+      cd "$(ls -Art | tail -n 1)";
+      tar xzvf ./$FMS_VOL.tar.gz -C /vol/fms;
+      tar xzvf ./$DEVIN_VOL.tar.gz -C /vol/devin"
 
 volumes:
   fms:
