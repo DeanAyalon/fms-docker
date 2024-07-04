@@ -1,1 +1,3 @@
 This directory is reserved as a default mount path for Devin development server backups
+
+backups, clones and external files are not included in the `tar.gz` files
