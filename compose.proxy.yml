@@ -17,6 +17,11 @@ services:
       CERT_NAME: ${CERT_NAME:-${DOMAIN}}
       VIRTUAL_PROTO: https
 
+  fms-backup:
+    extends:
+      file: compose.yml
+      service: backup
+
 volumes:
   fms:
     name: ${FMS_VOL:-fms}

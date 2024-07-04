@@ -52,6 +52,8 @@ services:
       - fms:/fms:ro
       - devin:/devin:ro
       - ${DEV_BACKUP_MOUNT:-./mounts/dev-backup}:/backup
+      # Sync timezone
+      - /etc/localtime:/etc/localtime:ro
     command: bash -c "
       export timestamp=$(date +%Y-%m-%d-%H-%M-%S);
       tar czvf /backup/fms-$$timestamp.tar.gz -C /fms .;
