@@ -52,6 +52,9 @@ Some service is taking up port 443. If this is FileMaker Server, use `systemctl`
 ### Cannot connect to Engine (Unknown). Make sure FileMaker Server is running and that the URL is correct.
 Make sure the container and fmshelper service within it are up, and container port 5003 is accessible.
 
+### Connecting to Engine - Runs forever
+The certificate may be wrong, if you want to trust the server anyway, enter the hosts menu and permit connection to the server.
+
 ### Go to Hosts -> Show Hosts, add the server, tick 'always permit connection...' and try again.
 The database server is not encrypted, upload an SSL certificate using the admin console (https://DOMAIN/admin-console).<br>
 Then, re-compose the container with 
@@ -73,6 +76,8 @@ If FileMaker creates the path `/opt/FileMaker/FileMaker Server/Data/Databases/Ba
 This is likely due to lack of write permissions to the mounted directory - The directory should allow write permission to the group.
 ```sh
 chmod g+w [bind/mount/path]
+# or
+chmod 770 [bind/mount/path]
 ```
 
 > Executing `ls -l` should result in:<br>
@@ -92,5 +97,5 @@ sudo chown $USER:$USER [bind/mount/path]
 Alternatively, if this does not work, change the ownership to the container's user:group, and allow write access to the group:
 ```sh
 sudo chown fmserver:fmsadmin [path]
-sudo chmod g+w [path]
+sudo chmod 770 [path]
 ```
