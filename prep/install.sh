@@ -18,7 +18,7 @@ cmd /install/install.sh
 # Execution context
 cd "$(dirname "$0")/.."
 source .env
-
+[ -z $PROCESSOR ] && PROCESSOR=amd
 
 # Install FileMaker Server
 cmd apt install /install/fms/filemaker-server-$VERSION-${PROCESSOR}64.deb || exit 1
@@ -31,7 +31,6 @@ if [ -f ./prep/installations/devin/install_devin_unix.zip ]; then
     if [ "$install_devin" = "Y" ] || [ "$install_devin" = "y" ]; then
         echo Installing Devin.fm...
         cmd unzip /install/devin/install_devin_unix.zip -d /tmp
-        echo Execute the following commands: 
 
         # Temporary solution until Devin.fm implements my enhancement
         export FMS_PREP_CONTEXT="-w /tmp/install_devin $container"

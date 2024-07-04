@@ -5,3 +5,9 @@ services:
       service: fms
     ports:
       - 443:443
+
+volumes:
+  fms:
+    name: ${FMS_VOL}
+  devin:
+    name: ${DEVIN_VOL}
