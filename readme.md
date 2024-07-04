@@ -5,7 +5,7 @@ While this project was made for my own use, it is public and available for other
 ## What about the official script?
 The official Claris FMS-Docker script only supports Ubuntu 20.04 and 22.04.<br>
 My repository should work for any UNIX based OS, with these having been tested:
-- Manjaro (Arch) v6.9.2.1
+- Manjaro (Arch) v24.0.3 Wynsdey
 - MacOS Ventura 13.6.7 (Intel i7 and M1 chips)
 
 ## Supported FMS versions
@@ -55,9 +55,26 @@ If the version folder does not exist, it can be duplicated from one of the other
 It may also include your Devin API key for staging/production servers using Devin.fm
 
 ## Post-Installation
+### Backup
+The FileMaker Server backup directories (ClonesOnly, Backups) and the external files (RC_Data_FMS) use bind mounts, so that they are not saved within the Docker volume assigned for FMS.
+
+In order to back the FMS or Devin.fm server itself up, use the backup service:
+```sh
+docker compose up backup
+```
+This container will archive the volumes assigned to fms and devin into `.tar.gz` files
+
+This method may allow one to work with a 'portable' FMS server, and thus, use Devin.fm locally - It is still under testing
+
 ### Bind Mounts
 The default mounts used are found within the [mounts directory](./mounts/), to use a different path, change the `$*_MOUNT` variables in [.env](./.env).<br>
 > Make sure the mounted directory has RWX permissions for both the user and group!
+
+**Mounted directories:**
+- [backups](./mounts/backups/) holds the `.fmp12` files made by FileMaker Server full backups
+- [clones](./mounts/clones/) holds the `.fmp12` files made by FileMaker Server cloning
+- [dev-backup](./mounts/dev-backup/) holds the `.tar.gz` archives of the `$FMS_VOL` and `$DEVIN_VOL` volumes, made by the backup service
+- [files](./mounts/files) holds the external files stored by FileMaker container fields
 
 ### Certificates
 - Login to the [Admin Console](https://localhost/admin-console) and import the certificate files
