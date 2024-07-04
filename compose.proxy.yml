@@ -23,6 +23,10 @@ services:
     extends:
       file: compose.yml
       service: backup
+  fms-restore:
+    extends:
+      file: compose.yml
+      service: restore
 
 volumes:
   fms:
