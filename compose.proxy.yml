@@ -14,9 +14,9 @@ services:
       file: compose.yml
       service: fms
     environment:
-      VIRTUAL_HOST: ${DOMAIN}
+      VIRTUAL_HOST: $DOMAIN
       VIRTUAL_PORT: 443
-      CERT_NAME: ${CERT_NAME:-${DOMAIN}}
+      CERT_NAME: ${CERT_NAME:-$DOMAIN}
       VIRTUAL_PROTO: https
 
   fms-backup:

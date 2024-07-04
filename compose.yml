@@ -5,20 +5,20 @@ services:
     build:
       context: ./prep/installations/fms/${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
       dockerfile: dockerfile
-    image: fms-prep:${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
+    image: fms-prep:$VERSION-u$UBUNTU-${PROCESSOR:-amd}
     container_name: fms-prep
     hostname: fms-prep
     privileged: true
     stop_grace_period: 0s
     volumes:
-      - ./prep/installations/fms/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install/fms
+      - ./prep/installations/fms/$VERSION-u$UBUNTU-${PROCESSOR:-amd}:/install/fms
       - ./prep/installations/devin:/install/devin
       - ./prep/installations/others:/install/others
 
   fms:
     profiles:
       - live
-    image: ${IMAGE:-fms}:${TAG_PREFIX}${TAG_PREFIX:+-}${VERSION:?}-u${UBUNTU:?}-${PROCESSOR:-amd}
+    image: ${IMAGE:-fms}:$TAG_PREFIX${TAG_PREFIX:+-}$VERSION-u$UBUNTU-${PROCESSOR:-amd}
     container_name: fms
     hostname: fms
     privileged: true
