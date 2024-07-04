@@ -58,13 +58,23 @@ It may also include your Devin API key for staging/production servers using Devi
 ### Backup
 The FileMaker Server backup directories (ClonesOnly, Backups) and the external files (RC_Data_FMS) use bind mounts, so that they are not saved within the Docker volume assigned for FMS.
 
-In order to back the FMS or Devin.fm server itself up, use the backup service:
-```sh
-docker compose up backup
-```
-This container will archive the volumes assigned to fms and devin into `.tar.gz` files
+In order to back the FMS or Devin.fm server itself up, use the backup service: `docker compose up backup`
+This container will archive the volumes assigned to fms and devin into the `$DEV_BACKUP_MOUNT/<timestamp>/<volume>.tar.gz`
 
-This method may allow one to work with a 'portable' FMS server, and thus, use Devin.fm locally - It is still under testing
+This method may allow one to work with a 'portable' FMS server, and thus, use Devin.fm locally
+
+#### Restore 
+The restore service is used to decompress backups into their respective containers. To use it: `docker compose up restore`
+
+This service is not yet ideal and works with a few restrictions:
+- Restores the most recently modified directory within the dev-backups mount.
+- Restores the backups by title, and matches them with `$DEVIN_VOL` and `$FMS_VOL`
+
+> Make sure the archive names in the latest directory within the dev-backups mount match the volumes set in `.env`, or the restore service will simply not find the correct file to unarchive.
+
+> I do not know yet how this service behaves with already populated volumes, so currently, it only certainly works with empty volumes.<br>
+> I will test this out, and may add lines emptying the volumes before restoring the backups
+
 
 ### Bind Mounts
 The default mounts used are found within the [mounts directory](./mounts/), to use a different path, change the `$*_MOUNT` variables in [.env](./.env).<br>
