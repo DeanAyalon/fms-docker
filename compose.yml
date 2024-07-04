@@ -14,7 +14,6 @@ services:
       - ./prep/installations/fms/${VERSION}-u${UBUNTU}-${PROCESSOR:-amd}:/install/fms
       - ./prep/installations/devin:/install/devin
       - ./prep/installations/others:/install/others
-      # - fms:/opt/FileMaker/FileMaker Server
 
   fms:
     profiles:
