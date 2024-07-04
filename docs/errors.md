@@ -89,3 +89,8 @@ sudo chown $USER:root [bind/mount/path]
 sudo chown $USER:$USER [bind/mount/path]
 ```
 
+Alternatively, if this does not work, change the ownership to the container's user:group, and allow write access to the group:
+```sh
+sudo chown fmserver:fmsadmin [path]
+sudo chmod g+w [path]
+```
