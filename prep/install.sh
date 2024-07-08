@@ -39,3 +39,5 @@ if [ -f ./prep/installations/devin/install_devin_unix.zip ]; then
         # cmd /tmp/install_devin/install_devin_unix.sh
     fi
 fi
+
+# If /install/others has files beside readme.md, prompt installation

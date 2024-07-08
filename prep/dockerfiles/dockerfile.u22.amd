@@ -1,4 +1,4 @@
-FROM arm64v8/ubuntu:22.04
+FROM amd64/ubuntu:22.04
 
 # update all software download sources
 RUN DEBIAN_FRONTEND=noninteractive      \
@@ -73,13 +73,13 @@ RUN DEBIAN_FRONTEND=noninteractive      \
         zip                             \
         zlib1g
 
+# Update system
+RUN apt-get update
+
 # install user management
 RUN DEBIAN_FRONTEND=noninteractive      \
 apt install                      -y \
     init
-
-# ARM64 - Install Devin.fm dependencies
-RUN apt-get install -y jq
 
 # clean up installations
 RUN DEBIAN_FRONTEND=noninteractive      \

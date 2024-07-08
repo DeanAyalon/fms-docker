@@ -14,6 +14,7 @@ container=fms-prep
 [ -z $PROCESSOR ] && PROCESSOR=amd
 tag=$VERSION-u$UBUNTU-$PROCESSOR
 [ ! -z $TAG_PREFIX ] && tag=$TAG_PREFIX-$tag
+[ ! -z $TAG_SUFFIX ] && tag+=-$TAG_SUFFIX
 
 # Commit running container into image
 echo Committing $container into $IMAGE:$tag

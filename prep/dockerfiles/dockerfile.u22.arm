@@ -73,6 +73,7 @@ RUN DEBIAN_FRONTEND=noninteractive      \
         zip                             \
         zlib1g
 
+# Update system
 RUN apt-get update
 
 # install user management
@@ -80,7 +81,7 @@ RUN DEBIAN_FRONTEND=noninteractive      \
 apt install                      -y \
     init
 
-# ARM64 - Install Devin.fm dependencies
+# ARM64 - Install correct Devin.fm dependencies
 RUN apt-get install -y jq
 
 # clean up installations

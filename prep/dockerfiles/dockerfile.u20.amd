@@ -73,6 +73,7 @@ RUN DEBIAN_FRONTEND=noninteractive      \
         zip                             \
         zlib1g
 
+# Update system
 RUN apt-get update
 
 # install user management
