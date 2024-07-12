@@ -5,7 +5,7 @@ services:
     build:
       context: ./prep/dockerfiles
       dockerfile: dockerfile.u${UBUNTU:?}.${PROCESSOR:-amd}
-    image: fms-prep:u$UBUNTU-${PROCESSOR:-amd}
+    image: deanayalon/fms-prep:u$UBUNTU-${PROCESSOR:-amd}
     container_name: fms-prep
     hostname: fms-prep
     privileged: true

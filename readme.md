@@ -45,14 +45,27 @@ Place the FileMaker Server installation `.deb` file within the appropriate [vers
 If the version folder does not exist, it can be duplicated from one of the other version folders - But dockerfile may need to be modified to update dependencies.
 
 ## Installation (prep)
+The base image used for preparing the final FMS image is [deanayalon/fms-prep](https://hub.docker.com/repository/docker/deanayalon/fms-prep).<br>
+It can be built manually using the [dockerfiles](./prep/dockerfiles/) or simply with `docker compose build prep`, using the correct environment variables.
+
+The fms-prep container maps the port `10443:443`, for private configuration of the server before committing the final image.
+
+**Installation steps:**
 - Compose: `docker compose up -d prep`
 - [install script](./prep/install.sh) - Executes the filemaker server installation within the container
   > If installing Devin.fm, make sure to choose an admin-console password that does NOT contain ':'
     - Afterwards, user will be prompted and instructed on how to install Devin.fm
+- Configure FileMaker Server using [The admin console](https://localhost:10443/admin-console)
 - [image script](./prep/image.sh) (docker commit)
 
+### THE FINAL IMAGE IS CONFIDENTIAL!
 **Do NOT upload the final image publicly, as it includes your admin-console credentials!**<br>
-It may also include your Devin API key for staging/production servers using Devin.fm
+It may also include:
+- Devin API key for staging/production servers using Devin.fm
+- SSL/TLS certificate and private key, if set in admin-console during prep stage
+- Database credentials and encryption keys, if set in admin-console during prep stage
+
+The final image is for private use only!
 
 ## Post-Installation
 ### Backup
@@ -89,6 +102,8 @@ The default mounts used are found within the [mounts directory](./mounts/), to u
 ### Certificates
 - Login to the [Admin Console](https://localhost/admin-console) and import the certificate files
 - Restart FileMaker Server, or the container
+
+> This can be done during the prep stage, but increases the vulnerability of the final image.
 
 ### Use Existing Databases
 Use the [copy-db script](./scripts/copy-db.sh) to copy a database into the fms container. And subsequently, into the `$FMS_VOL` volume defined in `.env`.<br>
