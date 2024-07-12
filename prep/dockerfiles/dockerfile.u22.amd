@@ -78,7 +78,7 @@ RUN apt-get update
 
 # install user management
 RUN DEBIAN_FRONTEND=noninteractive      \
-apt install                      -y \
+apt install                          -y \
     init
 
 # clean up installations
@@ -90,10 +90,7 @@ RUN DEBIAN_FRONTEND=noninteractive      \
     apt clean                        -y
 
 # Ports
-EXPOSE 80
-EXPOSE 443
-EXPOSE 2399
-EXPOSE 5003
+EXPOSE 80 443 2399 5003
 
 # when containers run, start this command as root to initialize user management
 USER root
