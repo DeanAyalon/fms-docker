@@ -35,6 +35,14 @@ Not sure of the cause, entering the `/tmp/install_devin` directory within the `f
 Also note that the devin installation log is created within the terminal's context.
 > Install script now enters the container and instructs the user to execute the devin installation
 
+### Devin - It was not possible to validate your admin account credentials, please try again.
+If the credentials entered were correct, but Devin still could not connect, try restarting the prep container
+```sh
+docker restart fms-prep
+./prep/install.sh
+```
+> This may also be characterized by the Devin installer being very slow
+
 ## Compose
 ### Port not available
 To find which service is taking up a port, use `sudo lsof -l :<port>`.<br>

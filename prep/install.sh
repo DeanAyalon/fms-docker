@@ -10,10 +10,8 @@ cmd() {
 export FMS_PREP_CONTEXT=$container
 
 # Update OS
+echo Updating libraries
 cmd apt-get update
-
-# Mounted installation script for each version, in case Claris changes installation file naming convention
-cmd /install/install.sh
 
 # Execution context
 cd "$(dirname "$0")/.."
