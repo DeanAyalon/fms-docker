@@ -4,7 +4,7 @@ services:
       file: compose.yml
       service: fms
     ports:
-      - 443:443
+      - ${FMS_PORT:-443}:443
 
 volumes:
   fms:

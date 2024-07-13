@@ -91,6 +91,9 @@ RUN DEBIAN_FRONTEND=noninteractive      \
     apt autoremove                   -y
 RUN DEBIAN_FRONTEND=noninteractive      \
     apt clean                        -y
+RUN chmod 770 -R /var/lib/apt/lists/* && \
+    rm -rf /var/lib/apt/lists/* &&      \
+    rm -rf /var/cache/*
 
 # Ports
 EXPOSE 80 443 2399 5003
