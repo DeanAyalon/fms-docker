@@ -2,6 +2,7 @@
 
 # Constants
 container=fms-prep
+[ ! -z "$1" ] && container=$1
 
 # Execute command within the container
 cmd() {
