@@ -7,10 +7,11 @@ Data within this directory is gitignored and will not be kept in the repository
 # Fonts
 Not sure yet where to install, need ME version of FMS to test this<br>
 Possible locations:
-- `/usr/share/fonts/truetype` - Seems to work, but FMS still doesn't use the font. Email sent to Claris support
+- `/usr/share/fonts/truetype` - Seems to work, but FMS still doesn't use the font. Under investigation of Claris Support
 
 Alternate possibilities
 - `~/.fonts` 
 - `~/.local/share/fonts`
  
-To list installed fonts, use `fc-list`
+List installed fonts: `fc-list`<br>
+Refresh font list: `fc-cache -fv`

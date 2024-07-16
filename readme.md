@@ -136,12 +136,12 @@ systemctl start fmshelper
 See [Errors](./docs/errors.md)
 
 # Featured Technologies 
-![FileMaker](https://img.shields.io/badge/claris-filemaker-black.svg?style=for-the-badge&logo=claris&logoColor=white)
-[![FileMaker Server](https://img.shields.io/badge/claris-FileMaker_Server-black.svg?style=for-the-badge&logo=claris&logoColor=white)](https://www.credly.com/earner/earned/badge/bbdd64a9-b1e0-48ac-9ab0-bbfb4d737204) 
-[![Devin.fm](https://custom-icon-badges.demolab.com/badge/devin.fm-120e6d.svg?style=for-the-badge&logo=devin.fm)](https://devin.fm)
+![FileMaker](https://img.shields.io/badge/claris-filemaker-black?style=for-the-badge&logo=claris)
+[![FileMaker Server](https://img.shields.io/badge/claris-FileMaker_Server-black?style=for-the-badge&logo=claris)](https://www.credly.com/earner/earned/badge/bbdd64a9-b1e0-48ac-9ab0-bbfb4d737204) 
+[![Devin.fm](https://custom-icon-badges.demolab.com/badge/devin.fm-120e6d?style=for-the-badge&logo=devin.fm)](https://devin.fm)
 
-[![Docker](https://img.shields.io/badge/docker-1D63ED.svg?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/repository/docker/deanayalon/fms-prep)
-[![Docker Scout](https://custom-icon-badges.demolab.com/badge/docker%20scout-376a5f.svg?style=for-the-badge&logo=docker-scout&logoColor=white)](https://www.docker.com/products/docker-scout/)
+[![Docker](https://img.shields.io/badge/docker-1D63ED?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/repository/docker/deanayalon/fms-prep)
+[![Docker Scout](https://custom-icon-badges.demolab.com/badge/docker%20scout-376a5f?style=for-the-badge&logo=docker-scout)](https://www.docker.com/products/docker-scout/)
 
-[![VSCode](https://img.shields.io/badge/vscode-white.svg?style=for-the-badge&logo=visual-studio-code&logoColor=007ACC)](https://github.com/simple-icons/simple-icons/pull/10019)
-![Shell](https://img.shields.io/badge/shell-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
+[![VSCode](https://img.shields.io/badge/vscode-white?style=for-the-badge&logo=visual-studio-code&logoColor=007ACC)](https://github.com/simple-icons/simple-icons/pull/10019)
+![Shell](https://img.shields.io/badge/shell-121011?style=for-the-badge&logo=gnu-bash&logoColor=white)
