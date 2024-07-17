@@ -12,6 +12,7 @@ container=fms-prep
 [ ! -z "$1" ] && container=$1
 
 # Image tag
+[ -z $IMAGE ] && IMAGE=fms
 [ -z $PROCESSOR ] && PROCESSOR=amd
 tag=$VERSION-u$UBUNTU-$PROCESSOR
 [ ! -z $TAG_PREFIX ] && tag=$TAG_PREFIX-$tag

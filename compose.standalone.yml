@@ -4,10 +4,10 @@ services:
       file: compose.yml
       service: fms
     ports:
-      - 443:443
+      - ${FMS_PORT:-443}:443
 
 volumes:
   fms:
-    name: ${FMS_VOL}
+    name: ${FMS_VOL:-fms}
   devin:
-    name: ${DEVIN_VOL}
+    name: ${DEVIN_VOL:-devin}
