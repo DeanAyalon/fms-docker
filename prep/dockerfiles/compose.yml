@@ -1,7 +1,7 @@
 name: fms-docker
 services:
   prep:
-    image: deanayalon/fms-prep:u${UBUNTU?}-${PROCESSOR:-amd}-dev
+    image: deanayalon/fms-prep:u${UBUNTU:?}-${PROCESSOR:-amd}-dev
     build: 
       dockerfile: dockerfile.u$UBUNTU.${PROCESSOR:-amd}
     container_name: fms-prep-dev
@@ -11,4 +11,4 @@ services:
     volumes:
       - ../installations:/install
     ports:
-      - 10443:443
+      - ${FMS_PORT:-10443}:443
