@@ -1,3 +1,5 @@
+# To use this by default, add this line to .env: COMPOSE_FILE=compose.standalone.yml:compose.yml
+
 services:
   fms:
     extends:
