@@ -33,3 +33,7 @@ volumes:
     name: ${FMS_VOL:-fms}
   devin:
     name: ${DEVIN_VOL:-devin}
+
+networks:
+  prep:
+    name: fms-prep

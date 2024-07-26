@@ -1,7 +1,6 @@
 services:
   prep: 
-    profiles:
-      - prep
+    profiles: [prep]
     build:
       context: ./prep/dockerfiles
       dockerfile: dockerfile.u${UBUNTU:?}.${PROCESSOR:-amd}
@@ -10,10 +9,9 @@ services:
     hostname: fms-prep
     privileged: true
     stop_grace_period: 0s
-    volumes:
-      - ./prep/installations:/install
-    ports:
-      - 10443:443
+    volumes: [./prep/installations:/install]
+    networks: [prep]
+    ports: [10443:443]
 
   fms:
     profiles:
@@ -87,3 +85,7 @@ volumes:
     name: ${FMS_VOL:-fms}
   devin:
     name: ${DEVIN_VOL:-devin}
+
+networks: 
+  prep: 
+    name: fms-prep
