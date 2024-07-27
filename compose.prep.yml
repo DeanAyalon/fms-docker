@@ -1,15 +1,17 @@
 services:
   prep-base:
-    profiles: [nothing]
+    profiles: [nothing]         # Made so that this never composes by default, unless specifically called for (Which wouldn't work anyway)
     container_name: fms-prep
     hostname: fms-prep
     privileged: true
     stop_grace_period: 0s
     volumes: 
       - ./prep/installations:/install
-    ports: [10443:443]
+    ports: 
+      - 10443:443
 
   prep: 
+    profiles: [prep]
     extends:
       service: prep-base
     build:

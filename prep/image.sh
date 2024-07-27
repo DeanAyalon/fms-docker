@@ -29,18 +29,22 @@ if [ ! -z $sample_db_exists ]; then
     fi
 fi
 
+# Check for existing image 
+image_exists=$(docker image ls --format {{.Repository}}:{{.Tag}} | grep $IMAGE:$tag)
+if [ ! -z "$image_exists" ]; then
+    echo $IMAGE:$tag already exists
+    echo "Please specify a version tag for the existing (previous) image [Default: prev]"
+    echo Use . to skip
+    read prev_tag
+    if [ "$prev_tag" != "." ]; then
+        [ -z "$prev_tag" ] && prev_tag=prev
+        echo Tagging $IMAGE:$tag as $IMAGE:$tag-$prev_tag
+        docker tag $IMAGE:$tag $IMAGE:$tag-$prev_tag
+    fi
+fi
+
 # Commit running container into image
 echo Committing $container into $IMAGE:$tag
 docker commit $container $IMAGE:$tag
 echo Removing $container 
 docker rm -f $container
-
-# Push
-if [ ! -z $REPO ]; then
-    read -n 1 -p "Push $IMAGE:$tag? [y/N]" push 
-    echo ""
-    if [ "$push" == "y" ] || [ "$push" == "Y" ]; then
-        docker login
-        docker push $IMAGE:$tag
-    fi
-fi

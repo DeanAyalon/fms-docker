@@ -68,6 +68,15 @@ It may also include:
 The final image is for private use only!
 
 ## Post-Installation
+### Image Modification
+If after having built an FMS image, you want to modify the image, such as modifying the configurations, updating the certificates, and custom installations - You do not need to go through the installation process all over again.
+
+- `docker compose up -d modify` will create an `fms-prep` container based on your existing 'final' FMS image, and bind it to the same mounts and ports as the prep service.
+- After having modified the fms-prep container, simply use the [image script](./prep/image.sh) again to commit the modified version into the final image. 
+
+The image script will prompt, asking whether you would like to save the existing version tag<br>
+By default, the previous version is tagged as `IMAGE:TAG-prev`
+
 ### Backup
 The FileMaker Server backup directories (ClonesOnly, Backups) and the external files (RC_Data_FMS) use bind mounts, so that they are not saved within the Docker volume assigned for FMS.
 
@@ -87,7 +96,6 @@ This service is not yet ideal and works with a few restrictions:
 
 > I do not know yet how this service behaves with already populated volumes, so currently, it only certainly works with empty volumes.<br>
 > I will test this out, and may add lines emptying the volumes before restoring the backups
-
 
 ### Bind Mounts
 The default mounts used are found within the [mounts directory](./mounts/), to use a different path, change the `$*_MOUNT` variables in [.env](./.env).<br>
@@ -109,7 +117,7 @@ The default mounts used are found within the [mounts directory](./mounts/), to u
 Use the [copy-db script](./scripts/copy-db.sh) to copy a database into the fms container. And subsequently, into the `$FMS_VOL` volume defined in `.env`.<br>
 This will handle the necessary permissions, and copy the db into the Databases folder
 
-> Will in the future support the Secure folder, and custom directories
+> Will in the future support the Secure folder, custom directories, copying from SCP, and frp, existing Docker volumes
 
 ## Compose Files
 ### [compose.yml](./compose.yml)
