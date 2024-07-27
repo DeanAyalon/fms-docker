@@ -1,18 +1,8 @@
-services:
-  prep: 
-    profiles: [prep]
-    build:
-      context: ./prep/dockerfiles
-      dockerfile: dockerfile.u${UBUNTU:?}.${PROCESSOR:-amd}
-    image: deanayalon/fms-prep:u$UBUNTU-${PROCESSOR:-amd}
-    container_name: fms-prep
-    hostname: fms-prep
-    privileged: true
-    stop_grace_period: 0s
-    volumes: [./prep/installations:/install]
-    networks: [prep]
-    ports: [10443:443]
+# prep
+include:
+  - path: compose.prep.yml
 
+services:
   fms:
     profiles:
       - live
@@ -38,6 +28,7 @@ services:
       # Sync time with host
       - /etc/localtime:/etc/localtime:ro
 
+  # backup/restore
   backup:
     profiles:
       - backup
@@ -85,7 +76,3 @@ volumes:
     name: ${FMS_VOL:-fms}
   devin:
     name: ${DEVIN_VOL:-devin}
-
-networks: 
-  prep: 
-    name: fms-prep
