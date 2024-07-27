@@ -1,0 +1,23 @@
+services:
+  prep-base:
+    profiles: [nothing]
+    container_name: fms-prep
+    hostname: fms-prep
+    privileged: true
+    stop_grace_period: 0s
+    volumes: 
+      - ./prep/installations:/install
+    ports: [10443:443]
+
+  prep: 
+    extends:
+      service: prep-base
+    build:
+      context: ./prep/dockerfiles
+      dockerfile: dockerfile.u${UBUNTU:?}.${PROCESSOR:-amd}
+    image: deanayalon/fms-prep:u$UBUNTU-${PROCESSOR:-amd}
+
+  modify:
+    extends: 
+      service: prep-base
+    image: ${IMAGE:-fms}:$TAG_PREFIX${TAG_PREFIX:+-}$VERSION-u$UBUNTU-${PROCESSOR:-amd}${TAG_SUFFIX:+-}$TAG_SUFFIX

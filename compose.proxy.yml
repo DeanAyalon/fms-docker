@@ -4,11 +4,6 @@
 # The other services use fms-<service> as their name, for use with monorepos without name collisions
 
 services:
-  fms-prep: 
-    extends:
-      file: compose.yml
-      service: prep
-
   fms:
     extends: 
       file: compose.yml
@@ -19,6 +14,17 @@ services:
       CERT_NAME: ${CERT_NAME:-$DOMAIN}
       VIRTUAL_PROTO: https
 
+  # prep
+  fms-prep:
+    extends:
+      file: compose.prep.yml
+      service: prep
+  fms-modify:
+    extends: 
+      file: compose.prep.yml
+      service: modify
+
+  # backup/restore
   fms-backup:
     extends:
       file: compose.yml
@@ -33,7 +39,3 @@ volumes:
     name: ${FMS_VOL:-fms}
   devin:
     name: ${DEVIN_VOL:-devin}
-
-networks:
-  prep:
-    name: fms-prep
