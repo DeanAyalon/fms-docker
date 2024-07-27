@@ -52,8 +52,8 @@ services:
       # Sync timezone
       - /etc/localtime:/etc/localtime:ro
     environment:
-      FMS_VOL: $FMS_VOL
-      DEVIN_VOL: $DEVIN_VOL
+      FMS_VOL: ${FMS_VOL:-fms}
+      DEVIN_VOL: ${DEVIN_VOL:-devin}
     command: bash -c "
       export timestamp=$(date +%Y-%m-%d-%H-%M-%S);
       mkdir /backup/$$timestamp;
@@ -72,8 +72,8 @@ services:
       - devin:/vol/devin
       - ${DEV_BACKUP_MOUNT:-./mounts/dev-backup}:/backups
     environment:
-      FMS_VOL: $FMS_VOL
-      DEVIN_VOL: $DEVIN_VOL
+      FMS_VOL: ${FMS_VOL:-fms}
+      DEVIN_VOL: ${DEVIN_VOL:-devin}
     command: bash -c "
       cd /backups;
       cd "$(ls -Art | tail -n 1)";
