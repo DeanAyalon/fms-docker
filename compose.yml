@@ -68,8 +68,8 @@ services:
     command: bash -c "
       cd /backups;
       cd "$(ls -Art | tail -n 1)";
-      tar xzvf ./$FMS_VOL.tar.gz -C /vol/fms;
-      tar xzvf ./$DEVIN_VOL.tar.gz -C /vol/devin"
+      tar xzvf ./$$FMS_VOL.tar.gz -C /vol/fms;
+      tar xzvf ./$$DEVIN_VOL.tar.gz -C /vol/devin"
 
 volumes:
   fms:

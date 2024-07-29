@@ -74,6 +74,17 @@ docker compose up -d fms
 ### Deployment - `Couldn't open the source file because "(804) : File cannot be opened as read only in its current state."`
 See [file permissions](#file-not-modifiable)
 
+### Deployment stuck
+Check the container's Devin log files (/opt/Devin/logs/devin.log)
+
+#### Error 413 - Files Too Large
+```log
+[timestamp] - urllib3.connectionpool - DEBUG - https://your.production.fms:443 "POST /devin/api/v1/prod/migration/devin-migration-hash/upload HTTP/1.1" 413 183
+```
+
+When using a reverse-proxy, make sure large files are allowed to be uploaded.
+- Nginx default upload limit is **1 MiB**, change it using `client_max_body_size 100M;`
+
 ## FileMaker Pro
 ### File Not Modifiable
 Make sure the container has permissions to access the database file.<br>
