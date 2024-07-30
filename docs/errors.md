@@ -71,6 +71,12 @@ docker compose down fms
 docker compose up -d fms
 ```
 
+### Connection Error alert when actually got a good connection
+This would mean some request to the server has failed, it is currently not showing the actual error, but 'Connection Error' instead<br>
+
+Checking the container's Devin error logs (/opt/Devin/logs/handler_err.log), the error seemed to be write permissions to the log files<br>
+The correct file ownership is `devin:fmsadmin`, editing the file (Like manually clearing it) may result in the ownership changing
+
 ### Deployment - `Couldn't open the source file because "(804) : File cannot be opened as read only in its current state."`
 See [file permissions](#file-not-modifiable)
 
