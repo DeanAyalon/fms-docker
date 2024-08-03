@@ -56,6 +56,7 @@ The fms-prep container maps the port `10443:443`, for private configuration of t
   > If installing Devin.fm, make sure to choose an admin-console password that does NOT contain ':'
     - Afterwards, user will be prompted and instructed on how to install Devin.fm
 - Configure FileMaker Server using [The admin console](https://localhost:10443/admin-console)
+  > If installing a Devin development server, make sure to keep FileMaker Data API enabled
 - [image script](./prep/image.sh) (docker commit)
 
 ### THE FINAL IMAGE IS CONFIDENTIAL!
