@@ -5,15 +5,14 @@ While this project was made for my own use, it is public and available for other
 ## What about the official script?
 The official Claris FMS-Docker script only supports Ubuntu 20.04 and 22.04.<br>
 My repository should work for any UNIX based OS, with these having been tested:
-- Manjaro (Arch) v24.0.3 Wynsdey
-- MacOS Ventura 13.6.7 (Intel i7 and M1 chips)
+- Manjaro (Arch) v24.0.3 Wynsdey (AMD64)
+- MacOS Ventura 13.6.7 (Intel i7 and Apple M1 Max chips)
+- MacOS Sonoma 14.6.1 (Apple M1 Max chip)
 
 ## Supported FMS versions
-This repository supports FileMaker Server versions 19 through 21.<br>
-The available versions are 19.6.4.402, 20.3.2.205 and 21.0.1.51, versions different than those will require manual dockerfile creation. This should be a simple process, usually just updating packages.
-
-> May be changed in the future, currently v20 and v21 use the same dockerfiles (So, dockerfile.u20 and dockerfile.u22)
-> > Test using `ubuntu` instead of `amd64/ubuntu` and `arm64v8/ubuntu`
+This repository supports FileMaker Server versions 19 through 21, others may work, but were not tested.<br>
+The latest tested versions are 21.0.1.51, 20.3.2.205, and 19.6.4.402.<br>
+[Full list of tested versions and compatibilities](./docs/versions.md)
 
 ## Submodule Access
 This repository has a few git submodules set to private repositories. **They are not required for execution of this repository!** 
