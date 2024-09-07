@@ -11,7 +11,7 @@ My repository should work for any UNIX based OS, with these having been tested:
 
 ## Supported FMS versions
 This repository supports FileMaker Server versions 19 through 21, others may work, but were not tested.<br>
-The latest tested versions are 21.0.1.51, 20.3.2.205, and 19.6.4.402.<br>
+The latest tested versions are 21.0.2, 20.3.2, and 19.6.4<br>
 [Full list of tested versions and compatibilities](./docs/versions.md)
 
 ## Submodule Access

@@ -4,7 +4,7 @@
 FMS           | Ubuntu | Chip
 --------------|--------|--------
 21.0.2.202    | 22     | AMD
-21.0.2.207_me | 22     | AMD
+21.0.2.207_me | 22     | AMD/ARM
 21.0.1.51     | 22     | AMD/ARM
 21.0.1.3_me   | 22     | AMD/ARM
 20.3.2.205    | 22     | AMD/ARM
@@ -18,6 +18,3 @@ FMS           | Ubuntu | Chip
 
 # Not working
 - 21.0.2.202 Ubuntu20 AMD64
-
-# TODO
-- [ ] 21.0.2.207_me u22 ARM
