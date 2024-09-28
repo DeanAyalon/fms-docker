@@ -6,7 +6,7 @@ services:
     privileged: true
     stop_grace_period: 0s
     volumes: 
-      - ./prep/installations:/install
+      - ./installations:/install
     ports: 
       - 10443:443
 
@@ -14,12 +14,15 @@ services:
     profiles: [prep]
     extends:
       service: prep-base
+    image: deanayalon/fms-prep:u$UBUNTU
     build:
-      context: ./prep/dockerfiles
-      dockerfile: dockerfile.u${UBUNTU:?}.${PROCESSOR:-amd}
-    image: deanayalon/fms-prep:u$UBUNTU-${PROCESSOR:-amd}
+      context: ./dockerfiles
+      dockerfile: dockerfile.u${UBUNTU:?}
+      platforms:
+        - linux/amd64
+        - linux/arm64
 
-  modify:
+  mod:
     extends: 
       service: prep-base
-    image: ${IMAGE:-fms}:$TAG_PREFIX${TAG_PREFIX:+-}$VERSION-u$UBUNTU-${PROCESSOR:-amd}${TAG_SUFFIX:+-}$TAG_SUFFIX
+    image: ${IMAGE:-fms}:$TAG_PREFIX${TAG_PREFIX:+-}$VERSION-u$UBUNTU${TAG_SUFFIX:+-}$TAG_SUFFIX

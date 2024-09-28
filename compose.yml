@@ -1,12 +1,12 @@
-# prep
 include:
-  - path: compose.prep.yml
+  - path: prep/compose.yml
+  # - path: docker/compose.utils.yml
 
 services:
-  fms:
+  fms: 
     profiles:
       - live
-    image: ${IMAGE:-fms}:$TAG_PREFIX${TAG_PREFIX:+-}$VERSION-u$UBUNTU-${PROCESSOR:-amd}${TAG_SUFFIX:+-}$TAG_SUFFIX
+    image: ${IMAGE:-fms}:$TAG_PREFIX${TAG_PREFIX:+-}$VERSION-u$UBUNTU${TAG_SUFFIX:+-}$TAG_SUFFIX
     container_name: fms
     hostname: fms
     privileged: true
@@ -18,61 +18,27 @@ services:
       - 5003:5003
       # - 16001:16001
     volumes:
-      # Volumes
       - fms:/opt/FileMaker/FileMaker Server
       - devin:/opt/Devin
-      # Mounts
-      - ${FILES_MOUNT:-./mounts/files}:/opt/FileMaker/FileMaker Server/Data/Databases/RC_Data_FMS:rw
-      - ${BACKUPS_MOUNT:-./mounts/backups}:/opt/FileMaker/FileMaker Server/Data/Backups:rw
-      - ${CLONES_MOUNT:-./mounts/clones}:/opt/FileMaker/FileMaker Server/Data/ClonesOnly:rw
+      - files:/opt/FileMaker/FileMaker Server/Data/Databases/RC_Data_FMS
+      - backups:/opt/FileMaker/FileMaker Server/Data/Backups
+      - xlones:/opt/FileMaker/FileMaker Server/Data/ClonesOnly
       # Sync time with host
       - /etc/localtime:/etc/localtime:ro
 
-  # backup/restore
-  backup:
-    profiles:
-      - backup
-    image: ubuntu:22.04
-    container_name: fms-dev-backup
-    hostname: fms-dev-backup
-    stop_grace_period: 0s
-    volumes:
-      - fms:/fms:ro
-      - devin:/devin:ro
-      - ${DEV_BACKUP_MOUNT:-./mounts/dev-backup}:/backup
-      # Sync timezone
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      FMS_VOL: ${FMS_VOL:-fms}
-      DEVIN_VOL: ${DEVIN_VOL:-devin}
-    command: bash -c "
-      export timestamp=$(date +%Y-%m-%d-%H-%M-%S);
-      mkdir /backup/$$timestamp;
-      tar czvf /backup/$$timestamp/$$FMS_VOL.tar.gz -C /fms .;
-      tar czvf /backup/$$timestamp/$$DEVIN_VOL.tar.gz -C /devin ."
-
-  restore:
-    profiles:
-      - restore
-    image: ubuntu:22.04
-    container_name: fms-dev-restore
-    hostname: fms-dev-restore
-    stop_grace_period: 0s
-    volumes:
-      - fms:/vol/fms
-      - devin:/vol/devin
-      - ${DEV_BACKUP_MOUNT:-./mounts/dev-backup}:/backups
-    environment:
-      FMS_VOL: ${FMS_VOL:-fms}
-      DEVIN_VOL: ${DEVIN_VOL:-devin}
-    command: bash -c "
-      cd /backups;
-      cd "$(ls -Art | tail -n 1)";
-      tar xzvf ./$$FMS_VOL.tar.gz -C /vol/fms;
-      tar xzvf ./$$DEVIN_VOL.tar.gz -C /vol/devin"
-
 volumes:
   fms:
+    external: true
     name: ${FMS_VOL:-fms}
   devin:
+    external: true
     name: ${DEVIN_VOL:-devin}
+  files:
+    external: true
+    name: ${FILES_VOL:-fms_files}
+  backups:
+    external: true
+    name: ${FILES_VOL:-fms_backups}
+  clones:
+    external: true
+    name: ${FILES_VOL:-fms_clones}
