@@ -1,0 +1,29 @@
+
+FROM ubuntu:22.04 
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    acl                     \
+    apache2-bin             \
+    apache2-utils           \
+    avahi-daemon            \
+    libc-bin
+
+# Update apt-get packages
+RUN apt-get update
+
+# install user management
+# RUN apt install -y init
+
+# clean up installations
+RUN apt --fix-broken install    -y
+RUN apt autoremove              -y
+RUN apt clean                   -y
+
+# Ports
+EXPOSE 80 443 2399 5003
+
+# when containers run, start this command as root to initialize user management
+USER root
+CMD ["/sbin/init"]
+
