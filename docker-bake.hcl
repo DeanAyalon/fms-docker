@@ -15,26 +15,36 @@ target "fms" {
     name = "fms${devin ? "-devin" : ""}"
     dockerfile = "dockerfile.u${UBUNTU}"
     tags = concat(
+        // :[us][-devin]    :latest[_us][-devin]
         LATEST == "latest" ? [
-            "${REPO}:${LOCALE}${devin ? "-devin" : ""}",                                                    // :us[-devin]    
-            "${REPO}:latest_${LOCALE}${devin ? "-devin" : ""}",                                             // :latest_us[-devin]
-            LOCALE == "us" ? "${REPO}${devin ? ":devin" : ""}" : "",                                        // :devin               (us)
-            LOCALE == "us" && devin ? "${REPO}:latest-devin" : "",                                          // :latest-devin        (us, devin)
+            "${REPO}:${LOCALE}${devin ? "-devin" : ""}",
+            "${REPO}:latest_${LOCALE}${devin ? "-devin" : ""}",
+            LOCALE == "us" ? "${REPO}${devin ? ":devin" : ""}" : "",
+            LOCALE == "us" && devin ? "${REPO}:latest-devin" : "",
         ] : [],
+        
+        // :21[_us][-devin]
         LATEST == "latest" || LATEST == "major" ? [
-            "${REPO}:${MAJOR}_${LOCALE}${devin ? "-devin" : ""}",                                           // :21_us[-devin]
-            LOCALE == "us" ? "${REPO}:${MAJOR}${devin ? "-devin" : ""}" : ""                                // :21[-devin]          (us)
+            "${REPO}:${MAJOR}_${LOCALE}${devin ? "-devin" : ""}",
+            LOCALE == "us" ? "${REPO}:${MAJOR}${devin ? "-devin" : ""}" : ""
         ] : [],
+        
+        // :21.0[_us][-devin]
         LATEST == "latest" || LATEST == "major" || LATEST == "minor" ? [
-            "${REPO}:${MAJOR}.${MINOR}_${LOCALE}${devin ? "-devin" : ""}",                                  // :21.0_us[-devin]
-            LOCALE == "us" ? "${REPO}:${MAJOR}.${MINOR}${devin ? "-devin" : ""}" : ""                       // :21.0[-devin]        (us)
+            "${REPO}:${MAJOR}.${MINOR}_${LOCALE}${devin ? "-devin" : ""}",
+            LOCALE == "us" ? "${REPO}:${MAJOR}.${MINOR}${devin ? "-devin" : ""}" : ""
         ] : [],
+        
+        // :21.0.2[_us][-devin]
         LATEST == "latest" || LATEST == "major" || LATEST == "minor" || LATEST == "patch" ? [
-            "${REPO}:${MAJOR}.${MINOR}.${PATCH}_${LOCALE}${devin ? "-devin" : ""}",                         // :21.0.2_us[-devin]
-            LOCALE == "us" ? "${REPO}:${MAJOR}.${MINOR}.${PATCH}${devin ? "-devin" : ""}" : ""              // :21.0.2[-devin]      (us)
-        ] : [], [
-            "${REPO}:${MAJOR}.${MINOR}.${PATCH}.${REVISION}_${LOCALE}${devin ? "-devin" : ""}",             // :21.0.2.202_us[-devin]
-            LOCALE == "us" ? "${REPO}:${MAJOR}.${MINOR}.${PATCH}.${REVISION}${devin ? "-devin" : ""}": ""   // :21.0.2.202[-devin]  (us)
+            "${REPO}:${MAJOR}.${MINOR}.${PATCH}_${LOCALE}${devin ? "-devin" : ""}",
+            LOCALE == "us" ? "${REPO}:${MAJOR}.${MINOR}.${PATCH}${devin ? "-devin" : ""}" : ""
+        ] : [], 
+
+        // :21.0.2.202[_us][-devin]
+        [ 
+            "${REPO}:${MAJOR}.${MINOR}.${PATCH}.${REVISION}_${LOCALE}${devin ? "-devin" : ""}",
+            LOCALE == "us" ? "${REPO}:${MAJOR}.${MINOR}.${PATCH}.${REVISION}${devin ? "-devin" : ""}": ""
         ]
     )
     platforms = ["linux/amd64", ARM ? "linux/arm64/v8" : ""]
