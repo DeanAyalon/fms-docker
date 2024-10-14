@@ -1,6 +1,7 @@
 # Environment
 mounts
 *.env
+docker-bake.override.hcl
 
 # Installations
 *.deb
