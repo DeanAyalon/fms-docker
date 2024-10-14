@@ -1,0 +1,7 @@
+# Environment
+mounts
+*.env
+
+# Installations
+*.deb
+*.zip
