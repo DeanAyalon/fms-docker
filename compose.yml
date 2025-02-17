@@ -1,6 +1,7 @@
 # prep
 include:
   - path: compose.prep.yml
+  - path: scripts/migration/compose.yml
 
 services:
   fms:
@@ -71,16 +72,6 @@ services:
       tar xzvf ./$$FMS_VOL.tar.gz -C /vol/fms;
       tar xzvf ./$$DEVIN_VOL.tar.gz -C /vol/devin"
 
-  migration:
-    profiles: [migration]
-    image: ${IMAGE:-fms}:$TAG_PREFIX${TAG_PREFIX:+-}$VERSION-u$UBUNTU-${PROCESSOR:-amd}${TAG_SUFFIX:+-}$TAG_SUFFIX
-    container_name: fmdatamigration
-    hostname: fmdatamigration
-    stop_grace_period: 0s
-    privileged: true
-    volumes:
-      - ./mounts/migration:/mnt
-    entrypoint: ["/opt/FileMaker/FileMaker Server/Database Server/bin/FMDataMigration"]
 
 volumes:
   fms:
