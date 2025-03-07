@@ -1,3 +1,4 @@
+name: fms-docker
 services:
   migration:
     profiles: [migration]
@@ -9,14 +10,10 @@ services:
     volumes:
       - ./mnt:/mnt
     entrypoint: ["/opt/FileMaker/FileMaker Server/Database Server/bin/FMDataMigration"]
-
-  # docker up preset > migration.log
-  preset:
-    extends: migration
-    container_name: fm-migration-preset
     command: |
       -src_path /mnt/$SOURCE -src_account $SRC_ACC 
       -clone_path /mnt/$CLONE -clone_account $CLONE_ACC 
       -src_pwd $SRC_PWD  -clone_pwd $CLONE_PWD
       -ignore_valuelists
+
       
