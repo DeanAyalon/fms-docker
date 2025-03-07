@@ -1,0 +1,49 @@
+# Complete backup of the FileMaker Server and Devin volumes
+services:
+  backup:       # Backup Dev server script
+    profiles:
+      - backup
+    image: ubuntu:22.04
+    container_name: fms-dev-backup
+    hostname: fms-dev-backup
+    stop_grace_period: 0s
+    volumes:
+      - fms:/fms:ro
+      - devin:/devin:ro
+      - ${VOLUME_BACKUP_MOUNT:-./mounts/volume-backup}:/backup
+      # Sync timezone
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      FMS_VOL: ${FMS_VOL:-fms}
+      DEVIN_VOL: ${DEVIN_VOL:-devin}
+    command: bash -c "
+      export timestamp=$(date +%Y-%m-%d-%H-%M-%S);
+      mkdir /backup/$$timestamp;
+      tar czvf /backup/$$timestamp/$$FMS_VOL.tar.gz -C /fms .;
+      tar czvf /backup/$$timestamp/$$DEVIN_VOL.tar.gz -C /devin ."
+
+  restore:      # Restore Dev server script
+    profiles:
+      - restore
+    image: ubuntu:22.04
+    container_name: fms-dev-restore
+    hostname: fms-dev-restore
+    stop_grace_period: 0s
+    volumes:
+      - fms:/vol/fms
+      - devin:/vol/devin
+      - ${VOLUME_BACKUP_MOUNT:-./mounts/volume-backup}:/backups
+    environment:
+      FMS_VOL: ${FMS_VOL:-fms}
+      DEVIN_VOL: ${DEVIN_VOL:-devin}
+    command: bash -c "
+      cd /backups;
+      cd "$(ls -Art | tail -n 1)";
+      tar xzvf ./$$FMS_VOL.tar.gz -C /vol/fms;
+      tar xzvf ./$$DEVIN_VOL.tar.gz -C /vol/devin"
+
+volumes:
+  fms:
+    name: ${FMS_VOL:-fms}
+  devin:
+    name: ${DEVIN_VOL:-devin}

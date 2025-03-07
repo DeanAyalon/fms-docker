@@ -1,5 +1,5 @@
 services:
-  prep-base:
+  prep-base:    # Base to extend from, not to be used directly
     profiles: [nothing]         # Made so that this never composes by default, unless specifically called for (Which wouldn't work anyway)
     container_name: fms-prep
     hostname: fms-prep
@@ -10,7 +10,7 @@ services:
     ports: 
       - 10443:443
 
-  prep: 
+  prep:         # Image creation
     profiles: [prep]
     extends:
       service: prep-base
@@ -19,7 +19,7 @@ services:
       dockerfile: dockerfile.u${UBUNTU:?}.${PROCESSOR:-amd}
     image: deanayalon/fms-prep:u$UBUNTU-${PROCESSOR:-amd}
 
-  modify:
+  modify:       # Existing image modification
     extends: 
       service: prep-base
     image: ${IMAGE:-fms}:$TAG_PREFIX${TAG_PREFIX:+-}$VERSION-u$UBUNTU-${PROCESSOR:-amd}${TAG_SUFFIX:+-}$TAG_SUFFIX

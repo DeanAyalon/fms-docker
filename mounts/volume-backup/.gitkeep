@@ -1,0 +1,2 @@
+This directory is reserved as a default mount path for complete volume backups
+bind mounts (backups, clones, and external files) are not included in the `tar.gz` files

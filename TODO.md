@@ -1,2 +1,0 @@
-- [ ] Test Dockerfiles using `ubuntu` instead of `amd64/ubuntu` and `arm64v8/ubuntu` for a multiple architechture image 
-- [ ] Multi-stage build?
