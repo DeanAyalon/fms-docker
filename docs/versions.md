@@ -11,6 +11,9 @@ FMS           | Ubuntu | Chip
 20.3.1.31     | 22     | AMD/ARM
 19.6.4.402    | 20     | AMD
 
+## TESTING
+21.1.1.11_me | 22 | AMD             - Devin Client v1.1 does not seem to connect to Devin Development server v1.1 on this version
+
 # Built and Tested on
 - MacOS Sonoma 14.6.1 with Apple M1 Max (ARM64 chip)
 - MacOS Ventura 13.6.9 with Intel Core i7 (AMD64 chip)
