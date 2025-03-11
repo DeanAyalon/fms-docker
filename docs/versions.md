@@ -1,6 +1,13 @@
 # Tested FMS Versions
 > me versions are FileMaker Server for the Middle East and India
 
+For some reason, with no discernable change, the Devin.fm installation seems to be failing. Therefore, for now, versions will be tested **without Devin**
+
+FMS          | Ubuntu | Chip
+-------------|--------|-----
+21.1.1.11_me | 22     | AMD
+
+## Tested with Devin
 FMS           | Ubuntu | Chip
 --------------|--------|--------
 21.0.2.202    | 22     | AMD
@@ -10,9 +17,6 @@ FMS           | Ubuntu | Chip
 20.3.2.205    | 22     | AMD/ARM
 20.3.1.31     | 22     | AMD/ARM
 19.6.4.402    | 20     | AMD
-
-## TESTING
-21.1.1.11_me | 22 | AMD             - Devin Client v1.1 does not seem to connect to Devin Development server v1.1 on this version
 
 # Built and Tested on
 - MacOS Sonoma 14.6.1 with Apple M1 Max (ARM64 chip)
