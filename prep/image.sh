@@ -45,6 +45,6 @@ fi
 
 # Commit running container into image
 echo Committing $container into $IMAGE:$tag
-docker commit $container $IMAGE:$tag
+docker commit $container $IMAGE:$tag || exit 1
 echo Removing $container 
 docker rm -f $container
