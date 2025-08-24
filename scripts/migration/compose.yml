@@ -15,5 +15,4 @@ services:
       -clone_path /mnt/$CLONE -clone_account $CLONE_ACC 
       -src_pwd $SRC_PWD  -clone_pwd $CLONE_PWD
       -ignore_valuelists
-
-      
+      -target_path /mnt/$TARGET
