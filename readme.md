@@ -39,9 +39,13 @@ Or use the [download script](.versions/download.sh) - Based on [.env](.env) `LIC
 
 For Devin.fm, also download the [installation script](https://download.devin.fm/downloads/server/latest/instlal_devin_unix.zip), and place it within [its installation directory](./prep/installations/devin/)
 
+Common errors and their solutions can be found [here](./docs/errors.md)
+
 ## Pre-Installation
-Place the FileMaker Server installation `.deb` file within the appropriate [version](./prep/versions/) folder.<br>
+- Place the FileMaker Server installation `.deb` file within the appropriate [version](./prep/versions/) folder.<br>
 If the version folder does not exist, it can be duplicated from one of the other version folders - But dockerfile may need to be modified to update dependencies.
+
+- Duplicate `template.env` and rename the clone to `.env`, then modify it according to your needs
 
 ## Installation (prep)
 The base image used for preparing the final FMS image is [deanayalon/fms-prep](https://hub.docker.com/repository/docker/deanayalon/fms-prep).<br>
