@@ -2,7 +2,6 @@
 include:
   - path: compose.prep.yml              # Image creation
   - path: compose.bu.yml                # Backup/restore volumes to/from tarballs
-  - path: scripts/migration/compose.yml # FMDataMigration tool
 
 services:
   fms:          # FileMaker Server
