@@ -1,0 +1,3 @@
+- remake fms-prep images with new ubuntu
+- refactor dockerfile
+- retry filemaker's official docker installation

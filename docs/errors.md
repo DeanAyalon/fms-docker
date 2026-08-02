@@ -3,7 +3,7 @@
 ### Failed to fetch URL - Temporary failure resolving 'DOMAIN'
 Enter the following within the fms-prep container shell
 ```sh
-echo -e "nameserver 8.8.8.8\nnameserver 8.8.4.4" |tee -a /etc/resolv.conf
+echo -e "nameserver 8.8.8.8\nnameserver 8.8.4.4" | tee -a /etc/resolv.conf
 ```
 
 ### Permission error while Cleaning up 
@@ -124,4 +124,15 @@ Alternatively, if this does not work, change the ownership to the container's us
 ```sh
 sudo chown fmserver:fmsadmin [path]
 sudo chmod 770 [path]
+```
+
+### Send Mail error 1542 - Time Synchronization
+On some servers, it seems mounting `/etc/localtime` does not work, instead `timedatectl` may require time zone installation and set up.
+In such case, use the `modify` service to edit your `fms` image with the following commands:
+```sh
+# From within the project's base directory
+docker compose up -d modify
+docker exec -it fms-prep apt install tzdata
+# docker exec -it fms-prep timedatectl set-timezone [Your/TimeZone]
+./prep/image.sh
 ```
